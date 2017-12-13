@@ -12,22 +12,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>Austin Code's GitHub</title>
-
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap theme -->
     <link href="css/bootstrap-theme.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="css/custom-theme.css" rel="stylesheet">
-    <!-- Modified the navbar links for accessbility-->
-    <link href="css/navbarcustom.css" rel="stylesheet">
     <!-- js files -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/custom-script.js"></script>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <link rel="shortcut icon" href="favicon2.ico" type="image/x-icon">
-    <link rel="manifest" href="/manifest.json">
+
+    <style>
+    .embed-container {position: relative; padding-bottom: 80%; height: 0; max-width: 100%;}
+    .embed-container iframe, .embed-container object, .embed-container iframe{position: absolute; top: 0; left: 0; width: 100%; height: 100%;}
+    small{position: absolute; z-index: 40; bottom: 0; margin-bottom: -15px;}
+    </style>
 </head>
 
 <body class="box">
@@ -59,8 +61,8 @@
     </nav>
     <!-- main -->
     <div id="map-page">
-        <iframe width="100%" height="1000px" src="https://austin.maps.arcgis.com/apps/MapSeries/index.html?appid=645ff0ec15c1426e9cb68304924124f6" frameborder="0" scrolling="no"></iframe>
-    </div>
+<div class="embed-container"><iframe width="500" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" title="ERT Situtational Awareness-Copy" src="//austin.maps.arcgis.com/apps/webappviewer/index.html?id=2d35ef457cae4d2c9c39311c29cd2187"></iframe></div>
+</div>
 </body>
 
 </html>

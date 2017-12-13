@@ -12,25 +12,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>Austin Code's GitHub</title>
-
+    <!-- old CSS
+	<link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen"
+	-->
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap theme -->
     <link href="css/bootstrap-theme.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="css/custom-theme.css" rel="stylesheet">
-    <!-- Modified the navbar links for accessbility-->
-    <link href="css/navbarcustom.css" rel="stylesheet">
-    <!-- js files -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/custom-script.js"></script>
-    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <link rel="shortcut icon" href="favicon2.ico" type="image/x-icon">
-    <link rel="manifest" href="/manifest.json">
 </head>
 
-<body class="box">
+<body>
     <!-- Fixed navbar -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
@@ -47,20 +46,15 @@
                 <ul class="nav navbar-nav">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="about.html">About</a></li>
-                    <li><a href="resources.html">Resources</a></li>
-                    <li class="active"><a href="maps.html">Maps</a></li>
-                    <li><a href="demographics.html">Demographics</a></li>
-                    <li><a href="news.html">News</a></li>
-                    <li><a href="open.html">Open Links</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li class="active"><a href="districts.html">Districts</a></li>
                 </ul>
             </div>
             <!--/.nav-collapse -->
         </div>
     </nav>
-    <!-- main -->
-    <div id="map-page">
-        <iframe width="100%" height="1000px" src="https://austin.maps.arcgis.com/apps/MapSeries/index.html?appid=645ff0ec15c1426e9cb68304924124f6" frameborder="0" scrolling="no"></iframe>
-    </div>
+    <iframe src="http://austincodeit.github.io/district-neighborhood-analysis/" frameborder="0" width="100%" style="margin-top:-20px; height: 100vh;"></iframe>
+    <div class="footnote" id="footnoteInsert"></div>
 </body>
 
 </html>
