@@ -12,24 +12,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>Austin Code's GitHub</title>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="css/custom-theme.css" rel="stylesheet">
 
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    <style>
-        .sources {
-            font-size: 9px;
-        }
-        div.row {
-            margin: 30px 0px 30px 0px;
-        }
-    </style>
+    <!-- js files -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/custom-script.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="js/chart.js"></script>
+    <link rel="manifest" href="/manifest.json">
 </head>
 
 <body class="box">
@@ -67,46 +63,45 @@
             <div class="row">
                 <div class="col-xs-6 col-xs-offset-3 col-sm-4 col-sm-offset-4">
                     <div class="dropdown demo-dropdown">
-                        <div>Service Zone</div>
-                        <select class="form-control" onchange="myFunction(this.value)">
-                            <option value="C1">C1</option>
-                            <option value="C2">C2</option>
-                            <option value="C3">C3</option>
-                            <option value="C4">C4</option>
-                            <option value="C5">C5</option>
-                            <option value="C6">C6</option>
-                            <option value="C7">C7</option>
-                            <option value="C8">C8</option>
-                            <option value="C9">C9</option>
-                            <option value="C10">C10</option>
-                            <option value="C11">C11</option>
-                            <option value="C12">C12</option>
-                            <option value="C13">C13</option>
-                            <option value="C14">C14</option>
-                            <option value="C15">C15</option>
-                            <option value="C16">C16</option>
-                            <option value="C17">C17</option>
-                            <option value="C18">C18</option>
-                            <option value="C19">C19</option>
-                            <option value="C20">C20</option>
-                            <option value="N1">N1</option>
-                            <option value="N2">N2</option>
-                            <option value="N3">N3</option>
-                            <option value="N4">N4</option>
-                            <option value="N5">N5</option>
-                            <option value="N6">N6</option>
-                            <option value="N7">N7</option>
-                            <option value="N8">N8</option>
-                            <option value="S1">S1</option>
-                            <option value="S2">S2</option>
-                            <option value="S3">S3</option>
-                            <option value="S4">S4</option>
-                            <option value="S5">S5</option>
-                            <option value="S6">S6</option>
-                            <option value="S7">S7</option>
-                            <option value="S8">S8</option>
-                            <option value="S9">S9</option>
-
+                        <span>Choose a District</span>
+                        <select id="mapchoice" class="form-control" onchange="myFunction(this)">
+                          <script type="text/javascript" src="js/maplist.js"></script>  <!-- JS function for creation of drop down list of map zone. Just call 
+                          the function and paramaters of name and number-->
+                          
+<!--      					<option value="N1">N1</option>
+      							<option value="N2">N2</option>
+      							<option value="N3">N3</option>
+      							<option value="N4">N4</option>
+      							<option value="N5">N5</option>
+      							<option value="N6">N6</option>
+      							<option value="N7">N7</option>
+      							<option value="N8">N8</option>
+      							<option value="E1">E1</option>
+      							<option value="E2">E2</option>
+      							<option value="E3">E3</option>
+      							<option value="E4">E4</option>
+      							<option value="E5">E5</option>
+      							<option value="E6">E6</option>
+      							<option value="E7">E7</option>
+      							<option value="E8">E8</option>
+      							<option value="E9">E9</option>
+      							<option value="S1">S1</option>
+      							<option value="S2">S2</option>
+      							<option value="S3">S3</option>
+      							<option value="S4">S4</option>
+      							<option value="S5">S5</option>
+      							<option value="S6">S6</option>
+      							<option value="S7">S7</option>
+      							<option value="S8">S8</option>
+      							<option value="S9">S9</option>
+      							<option value="W1">W1</option>
+      							<option value="W2">W2</option>
+      							<option value="W3">W3</option>
+      							<option value="W4">W4</option>
+      							<option value="W5">W5</option>
+      							<option value="W6">W6</option>
+      							<option value="W7">W7</option>
+      							<option value="W8">W8</option> -->
       						</select>
                     </div>
                 </div>
@@ -115,102 +110,55 @@
             <!--Charts-->
             <div class="row">
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    <h4 align="center"> Quick Stats </h4>
-                    <h3>Service Zone <span id="zone-selection">C1</span></h3>
-                    <div id="canvas-holder" align="center">
-                        <table class="table table-striped">
-                            <tbody>
-                                <tr>
-                                    <th scope="row">Population</th>
-                                    <td><span id="totalPopHolder"></span></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Housing Units</th>
-                                    <td><span id="housingUnitHolder"></span></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Council District(s)</th>
-                                    <td><span id="councilDistHolder"></span></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" class="sources">
-                                        <span class="text-muted">Total Population (B01003), Sex By Age (B01001), Household Income in the Past 12 Months (B19001), Race (B02001), and Tenure by Year Structure Built (B25036) - <a href="https://factfinder.census.gov/" target="_blank">U.S. Census Bureau, 2011-2015 American Community Survey 5-Year Estimates</a>.</span>
-                                        <br />
-                                        <span class="text-muted">Code Complaints from Jan 1, 2017 to Dec 31, 2017 - AMANDA</span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <h4 align="center"> Age Distribution </h4>
-                    <div id="canvas-holder1" align="center">
-                        <canvas id="populationCanvas" width="400" height="300" />
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 col-sm-6 col-xs-12">
                     <h4 align="center"> Housing Tenure </h4>
-                    <div id="canvas-holder2" align="center">
-                        <canvas id="housingCanvas" width="400" height="300" />
+                    <div id="canvas-holder" align="center">
+                        <canvas id="canvas3" width="400" height="300" />
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <h4 align="center"> Income Brackets </h4>
-                    <div id="canvas-holder3" align="center">
-                        <canvas id="incomeCanvas" width="400" height="300" />
+                    <div id="canvas-holder" align="center">
+                        <canvas id="canvas" width="400" height="300" />
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <h4 align="center"> Race & Ethnicity </h4>
-                    <div id="canvas-holder4" align="center">
-                        <canvas id="demographicCanvas" width="400" height="300" />
+                    <div id="canvas-holder" align="center">
+                        <canvas id="canvas2" width="400" height="300" />
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    <h4 align="center"> Complaints by Month (2017)</h4>
-                    <br/><br/>
-                    <h6 align="center">***coming soon***</h6>
-                    <h6 align="center">***coming soon***</h6>
-                    <h6 align="center">***coming soon***</h6>
-                    <!-- <div id="canvas-holder5" align="center">
-                        <canvas id="complaintCanvas" width="400" height="300" />
-                    </div> -->
+                    <h4 align="center"> Complaints by Month (2015)</h4>
+                    <div id="canvas-holder" align="center">
+                        <canvas id="canvas4" width="400" height="300" />
+                    </div>
                 </div>
             </div>
-
+            <!--Demographic Indicators-->
+            <!-- <div class="row">
+                <h4 align="center" style="color:#E6253B" id="populationDist"></h4>
+            </div> -->
             <div class="row thumbnail-row">
-                <div class="col-xs-6 col-xs-offset-3 col-sm-4 col-sm-offset-4">
-                    <h4 align="center">Service Zone Boundary</h4>
-                    <h6 align="center">***coming soon***</h6>
-                    <!-- <a href="" target="_blank" class="thumbnail" id="zone-link">
-                        <img id="zone-screenshot" />
-                    </a> -->
-                    <!-- <p class="zone-caption"><small class="text-muted">click to enlarge</small></p> -->
-                </div>
+              <div class="col-xs-6 col-xs-offset-3 col-sm-4 col-sm-offset-4">
+                <h4 align="center">District Boundary</h4>
+                <a href="" target="_blank" class="thumbnail" id="district-link">
+                    <img id="district-screenshot" alt="district map thumbnail"/>
+                </a>
+                <p class="district-caption"><small class="text-muted">click to enlarge</small></p>
+              </div>
             </div>
             <div class="row">
-                <h2>About</h2> (text)
-                <h6 align="center">***coming soon***</h6>
-                <!-- <span id="about-zone-text"></span> -->
+                <h2>About</h2>
+                <span id="about-district-text"></span>
             </div>
         </div>
         <!-- /sm-col -->
         <div class="footnote" id="footnoteInsert"></div>
-    </div>
-    <!-- /container -->
-    <!-- Latest compiled and minified JavaScript -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-    <!-- js files -->
-    <script src="js/chart.js"></script>
-    <script src="js/AutoGenerateCharts_v2.js"></script>
-    <script type="text/javascript" src="js/custom-script.js"></script>
+    </div>  <!-- /container -->
+
+    <script src="js/AutoGenerateCharts.js"></script>
 </body>
 
 </html>

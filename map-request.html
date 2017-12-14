@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<!--
+* DATE: 09/26/2016
+* INFO: This page was developed by Nathan Brigmon using Bootstrap CSS styles. It's built on the work of John Clary the previous GIS Analyst at the Austin Code Department.
+* CONT: To contact the developer of the page, email nathan.brigmon@austintexas.gov
+-->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Austin Code's GitHub</title>
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/custom-theme.css" rel="stylesheet">
+    <!-- js files -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/custom-script.js"></script>
+    <style>
+      table input.map-quant { width: 50px; }
+      table td:nth-child(3),table td:nth-child(4){padding-left: 13px !important}
+      table td { vertical-align: middle !important;}
+      table.first-table {margin-bottom: 5px;}
+    </style>
+    <link rel="shortcut icon" href="favicon2.ico" type="image/x-icon">
+</head>
+
+<body class="box">
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+                <a class="navbar-brand" href="#">Austin Code</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="resources.html">Resources</a></li>
+                    <li><a href="maps.html">Maps</a></li>
+                    <li><a href="demographics.html">Demographics</a></li>
+                    <li><a href="news.html">News</a></li>
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
+        </div>
+    </nav>
+    <div class="container col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2" id="main" role="main">
+
+        <div class="page-header">
+            <h1>Map Request Form</h1>
+        </div>
+          <form class="form-horizontal" role="form">
+              <!-- <h2>Map Form</h2> -->
+              <div class="form-group">
+                  <label for="name" class="col-sm-3 control-label">Name</label>
+                  <div class="col-sm-9">
+                      <input type="text" id="name" placeholder="Full Name" class="form-control" autofocus>
+                  </div>
+              </div>
+              <div class="form-group">
+                  <label for="team" class="col-sm-3 control-label">Team</label>
+                  <div class="col-sm-9">
+                      <input type="text" id="team" placeholder="Team/Supervisor" class="form-control">
+                  </div>
+              </div>
+              <div class="form-group">
+                  <label for="map-details" class="col-sm-3 control-label">Map Details</label>
+                  <div class="col-sm-9">
+                    <table class="table table-condensed first-table">
+                      <tr>
+                        <th>Case Number(s)</th>
+                        <th>Property Address(es)</th>
+                      </tr>
+                      <tr>
+                        <td><textarea class="form-control" placeholder="case #1; case #2.." rows="2" id="case-descr"></textarea></td>
+                        <td><textarea class="form-control" placeholder="address #1; address #2.." rows="2" id="address-descr"></textarea></td>
+                      </tr>
+                    </table>
+                    <table class="table table-condensed">
+                      <tr>
+                        <th>Quantity</th>
+                        <th>Type</th>
+                        <th>Print</th>
+                        <th>PDF</th>
+                      </tr>
+                      <tr>
+                        <td><input type="text" id="quant0" placeholder="#" class="form-control map-quant" autofocus></td>
+                        <td>Interactive Web Map</td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td><input type="text" id="quant1" placeholder="#" class="form-control map-quant" autofocus></td>
+                        <td>8.5x11 - Letter</td>
+                        <td><input type="checkbox" id="print1"></td>
+                        <td><input type="checkbox" id="pdf1"></td>
+                      </tr>
+                      <tr>
+                        <td><input type="text" id="quant2" placeholder="#" class="form-control map-quant" autofocus></td>
+                        <td>11x17 - Large</td>
+                        <td><input type="checkbox" id="print2" ></td>
+                        <td><input type="checkbox" id="pdf2" ></td>
+                      </tr>
+                      <tr>
+                        <td><input type="text" id="quant3" placeholder="#" class="form-control map-quant" autofocus></td>
+                        <td>24x36 - Poster</td>
+                        <td><input type="checkbox" id="print3" ></td>
+                        <td><input type="checkbox" id="pdf3" ></td>
+                      </tr>
+                      <tr>
+                        <td><input type="text" id="quant4" placeholder="#" class="form-control map-quant" autofocus></td>
+                        <td>36x48 - Lg Poster</td>
+                        <td><input type="checkbox" id="print4" ></td>
+                        <td><input type="checkbox" id="pdf4" ></td>
+                      </tr>
+                      <tr>
+                        <td><input type="text" id="quant5" placeholder="#" class="form-control map-quant" autofocus></td>
+                        <td><input type="text" id="otherType" placeholder="Custom (e.g. 3x5)" class="form-control" style="width:75%" autofocus></td>
+                        <td><input type="checkbox" id="print5" ></td>
+                        <td><input type="checkbox" id="pdf5" ></td>
+                      </tr>
+                    </table>
+                  </div>
+              </div>
+
+              <div class="form-group">
+                  <label for="titleSuggestion" class="col-sm-3 control-label">Map Title</label>
+                  <div class="col-sm-9">
+                      <input type="text" id="title-sugg" placeholder="e.g. ACD Complaints FY2017" class="form-control" autofocus>
+                  </div>
+              </div>
+              <div class="form-group">
+                  <label class="control-label col-sm-3">Description</label>
+                  <div class="col-sm-9">
+                    <span id="helpBlock" class="help-block">Please include the purpose and audience of the map :)</span>
+                    <textarea class="form-control" placeholder="e.g. BSC Map, District Map, or I want a map showing..." rows="2" id="map-descr"></textarea>
+                  </div>
+              </div> <!-- /.form-group -->
+
+              <div class="form-group">
+                  <div class="col-sm-9 col-sm-offset-3">
+                      <button type="submit" class="btn btn-info btn-circle text-uppercase btn-block" onclick="sendMail(); return false">Request!</button>
+                  </div>
+              </div>
+          </form> <!-- /form -->
+
+        <!-- section for bootstrap form with script below to send variables to email form -->
+
+        <script type="text/javascript">
+
+        function sendMail() {
+            var name = $("#name").val();
+            var team = $("#team").val();
+
+            var caseDescr = $("#case-descr").val();
+            var addDescr = $("#address-descr").val();
+
+            var titleSug = $("#title-sugg").val();
+            var mapDescr = $("#map-descr").val();
+
+            var d = new Date();
+            var timestamp = d.toDateString() +" "+ d.toLocaleTimeString();
+
+            var compileBody = function(){
+                var add1 = '', add2 = '', add3 = '', add4 = '', add5 = '', add6 = '', add7 = '';
+                if (caseDescr.length > 2) {
+                  add1 = "Case Number(s):\t"+caseDescr;
+                }
+                if (addDescr.length > 2){
+                  add2 = "Properties:\t"+addDescr;
+                }
+                var fullText = `
+                  Official Map Request For Austin Code Department, IT GIS Team\n
+                  Date:\t\t`+timestamp+`
+                  From:\t\t`+name+`
+                  Team:\t\t`+team+`
+                  Map:\t\t`+titleSug+`
+                  Details:\tBelow are the specifics of my request...
+                  `+add1+`
+                  `+add2+`
+                  `+mapDescr+`
+                  `+add3+`
+                  `+add4+`
+                  `+add5+`
+                  `+add6+`
+                  `+add7;
+                  console.log(fullText);
+                // return fullText;
+            }
+
+
+            var link = "mailto:Desk-CTM.Help@austintexas.gov"
+                     + "?cc=nathan.brigmon@austintexas.gov"
+                     + "&subject=" + encodeURIComponent("ACD GIS Map Request")
+                     + "&body=" + encodeURIComponent( compileBody() );
+            ;
+            console.log(link);
+            window.location.href = link;
+        }
+      </script>
+
+        <!-- <div class="footnote" id="footnoteInsert"></div> -->
+    </div>
+    <!-- /container -->
+
+</body>
+
+</html>

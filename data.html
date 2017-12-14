@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<!--
+* DATE: 09/26/2016
+* INFO: This page was developed by Nathan Brigmon using Bootstrap CSS styles. It's built on the work of John Clary the previous GIS Analyst at the Austin Code Department.
+* CONT: To contact the developer of the page, email nathan.brigmon@austintexas.gov
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Austin Code's GitHub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css" />
+    <link rel="shortcut icon" href="favicon2.ico" type="image/x-icon">
+  </head>
+  <body>
+
+      <div class="container">
+          <input type="text" placeholder="address" id="inspectorID_FullTaskList"/>
+          <br />
+          Results below:
+          <div id="results1"> </div>
+          <div id="results2"> </div>
+          <div id="results3"> </div>
+          <div id="results4"> </div>
+          <div id="results5"> </div>
+      </div>
+  </body>
+</html>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js" type="text/javascript"></script>
+<script>
+
+    $(document).ready(function() {
+
+            let key1 = 'AIzaSyBXAnW9slEyfpkJKdHxnz_29kF8pn14MA0',
+                key2 = 'AIzaSyALPWxESCeijSKpKHoduW0htKA6w0KIJnc',
+                key3 = 'AIzaSyBbnhwYIXT-MBTVIaDxS9kzbqIOmoeqcRU',
+                key4 = 'AIzaSyCRQEeXDjgRjRX7HVyGFLDQXCzlrty1NxI',
+                key5 = 'AIzaSyDgR0LEtKMow--eiBeyiCbypLhDMAKCE8E',
+                key6 = 'AIzaSyC6ag7eWl7tjpaLo94L3w2LYZO41vklZC8';
+
+            let openDataLink = 'https://data.austintexas.gov/resource/czdh-pagu.json';
+            $.ajax({
+              url: openDataLink,
+              type: "GET",
+              data: {
+                "$limit": 7000,
+                "$$app_token": "AmHlGm0OHBl6r4hg0PLvAtJk7"
+              }
+            }).done(function(data) {
+                //when the results are returned...
+                //get inspector names by unique values
+                // let nameArray = _.chain(data).pluck('assigneduser').uniq().value();
+                // let removeArray = ['Todd Wilcox', 'Viola Ruiz', 'Marcus Elliot', 'Tammy Lewis', 'Kendrick Barnett']; //names we don't want to map
+                // let filterArray = nameArray.filter(function(name){
+                //     if (removeArray.indexOf(name) < 0){
+                //         return name;
+                //     }
+                // })
+                // console.log(nameArray.length, filterArray.length);
+                // $("#results1").html(JSON.stringify(filterArray));
+                let filteredData = _.filter(data, function(row) { //filter the data returned by assignedUser
+                  return row.assigneduser == 'Robert Moore';
+                })
+                console.log('filteredData',filteredData.length)
+                $("#results1").html(JSON.stringify(filteredData[0]));
+                $("#results2").html(JSON.stringify(filteredData[1]));
+                $("#results3").html(JSON.stringify(filteredData[2]));
+                $("#results4").html(JSON.stringify(filteredData[3]));
+                let addArray = [];
+                let filteredData2 = filteredData.filter(function(elem){
+                    console.log(elem.foldername);
+                    if (addArray.indexOf(elem.foldername) < 0){
+                        addArray.push(elem.foldername);
+                        return elem.foldername;
+                    }
+                })
+                console.log('filteredData2',filteredData2.length)
+                // uniqueAddressArray = _.chain(data).pluck('assigneduser').uniq().value();
+                // console.log('data',data.length)
+
+
+            });
+        /*
+            PROCESS FOR APPLICATION function
+            3. SEND ARRAY TO GEOCODER USIGN MAP FUNCTION
+                3A. SELECT KEY AT RANDOM TO THROTTLE REQUEST
+                3B. CREATE 0.1 SECOND DELAY
+                3C. RETURN RESULTS with ERROR MSG STATIG HOW MANY WERE NOT CODED
+            4. SEND RESULTS TO MAP
+            5. CONFIGURE POPUPS
+            6. CREATE ADD TO QUEUE BUTTON
+            7. ENABLE RESET TO CLEAR MAP
+            8. CREATE VISUAL DISPLAY OF WHOSE TASK LIST IS BEING VISUALIZED
+
+
+        let key1 = 'AIzaSyBXAnW9slEyfpkJKdHxnz_29kF8pn14MA0';
+        let list = [
+            {add: '1200 w 40th st', key: key1}
+            // {add: '1300 w 40th st', key: key2},
+            // {add: '1400 w 40th st', key: key3},
+            // {add: '1500 w 40th st', key: key4},
+            // {add: '1600 w 40th st', key: key5},
+        ];
+        let count = 1;
+        list.map(function(elem, idx){
+            //construct link
+            let link = 'https://maps.googleapis.com/maps/api/geocode/json?address='+elem['add']+'+Austin,+TX'+'&key='+elem['key'];
+            // console.log("LOOP: ", elem," ", idx);
+            $.ajax({
+              url: link,
+              type: "GET"
+            }).done(function(data) {
+              //when the results are returned...
+              //get inspector names by unique values
+
+              $("#results"+count+"").html(JSON.stringify(data));
+              count++;
+              console.log('done: ',count,data);
+              console.log(data['results'][0]['geometry']['location'])
+            });
+        });
+*/
+
+    });
+
+</script>
