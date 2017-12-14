@@ -18,6 +18,7 @@
             padding: 7px 5px;
         }
     </style>
+    <link rel="shortcut icon" href="favicon2.ico" type="image/x-icon">
   </head>
     <body class="container">
         <section class="main-content" class="row">
@@ -70,7 +71,7 @@
                       //when the results are returned...
                       //get inspector names by unique values
                       let nameArray = _.chain(data).pluck('assigneduser').uniq().value();
-                      let removeArray = ['Todd Wilcox', 'Viola Ruiz', 'Marcus Elliott', 'Tammy Lewis', 'Kendrick Barnett', 'Amy Barboza','Sonja Prevo']; //names we don't want to map
+                      let removeArray = ['Todd Wilcox', 'Viola Ruiz', 'Marcus Elliott', 'Tammy Lewis', 'Kendrick Barnett', 'Amy Barboza']; //names we don't want to map
                       let filterArray = data.filter(function(row){
                           if (removeArray.indexOf(row.assigneduser) < 0 && row.foldernumber.indexOf("OL") < 0){
                               return row;

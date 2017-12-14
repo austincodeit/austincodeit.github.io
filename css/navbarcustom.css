@@ -1,0 +1,10 @@
+ .navbar-inverse .navbar-nav > li > a{
+	color: #e2e2e2;
+}
+
+a {
+	color: black;
+}
+.label-default {
+	background-color: #333;
+}

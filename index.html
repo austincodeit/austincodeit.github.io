@@ -18,11 +18,15 @@
     <link href="css/bootstrap-theme.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="css/custom-theme.css" rel="stylesheet">
+    <!-- Modified the navbar links for accessbility-->
+    <link href="css/navbarcustom.css" rel="stylesheet">
     <!-- js files -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/custom-script.js"></script>
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <script type="text/javascript" defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" defer src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" defer src="js/custom-script.js"></script>
+    <link rel="short icon" href="favicon2.ico" type="image/x-icon">
+    <!--Manifest metadata for PWA-->
+    <link rel="manifest" href="/manifest.json">
 </head>
 
 <body class="box">
@@ -47,6 +51,7 @@
                     <li><a href="demographics.html">Demographics</a></li>
                     <li><a href="news.html">News</a></li>
                     <li><a href="open.html">Open Links</a></li>
+
                 </ul>
             </div>
             <!--/.nav-collapse -->
@@ -61,7 +66,7 @@
         </div>
 
         <div class="code-logo">
-            <img src="imgs/coa_code_logo.png" />
+            <img src="imgs/coa_code_logo.png" alt="COA badge logo" />
         </div>
         <p>The <b>mission</b> of the City of Austin Code Department is to provide quality education and enforcement of city codes and ordinances so that Austin will be a more livable city.</p>
         <p class="text-muted tag-line">"Preserving Austin's Quality of Life"</p>
@@ -109,11 +114,11 @@
             <table class="table table-hover">
                 <tr>
                     <th>Twitter</th>
-                    <td><a href='http://www.twitter.com/Austin_Code' target="_blank">@Austin_Code</a></td>
+                    <td><a href='http://www.twitter.com/Austin_Code' target="_blank" rel="noopener">@Austin_Code</a></td>
                 </tr>
                 <tr>
                     <th>Facebook</th>
-                    <td><a href='http://www.facebook.com/AustinCodeATX' target="_blank">AustinCodeATX</a></td>
+                    <td><a href='http://www.facebook.com/AustinCodeATX' target="_blank" rel="noopener">AustinCodeATX</a></td>
                 </tr>
                 <tr>
                     <th>Email</th>
@@ -121,7 +126,7 @@
                 </tr>
                 <tr>
                     <th>Website</th>
-                    <td><a href='http://www.austintexas.gov/department/code' target="_blank">austintexas.gov/Code</a></td>
+                    <td><a href='http://www.austintexas.gov/department/code' target="_blank" rel="noopener">austintexas.gov/Code</a></td>
                 </tr>
             </table>
         </div>
@@ -149,32 +154,32 @@
 
             <!-- Wrapper for slides -->
             <div class="carousel-inner" role="listbox">
-                <div class="item active">
-                    <img src="imgs/carousel-2.jpg" alt="0">
+                <div role="option" class="item active">
+                    <img src="imgs/carousel-2.jpg" alt="code compliance booth">
                 </div>
-                <div class="item">
-                    <img src="imgs/carousel-3.jpg" alt="2">
+                <div role="option"  class="item">
+                    <img src="imgs/carousel-3.jpg" alt="inspectors cleaning">
                 </div>
-                <div class="item">
-                    <img src="imgs/carousel-4.jpg" alt="3">
+                <div role="option"  class="item">
+                    <img src="imgs/carousel-4.jpg" alt="two inspectors">
                 </div>
-                <div class="item">
-                    <img src="imgs/carousel-5.jpg" alt="4">
+                <div role="option" class="item">
+                    <img src="imgs/carousel-5.jpg" alt="three inspectors">
                 </div>
-                <div class="item">
-                    <img src="imgs/carousel-6.jpg" alt="5">
+                <div role="option" class="item">
+                    <img src="imgs/carousel-6.jpg" alt="inspector tablet">
                 </div>
-                <div class="item">
-                    <img src="imgs/carousel-7.jpg" alt="6">
+                <div role="option" class="item">
+                    <img src="imgs/carousel-7.jpg" alt="inspectors trash bags">
                 </div>
-                <div class="item">
-                    <img src="imgs/carousel-8.jpg" alt="7">
+                <div role="option" class="item">
+                    <img src="imgs/carousel-8.jpg" alt="inspector taking snapshot">
                 </div>
-                <div class="item">
-                    <img src="imgs/carousel-9.jpg" alt="8">
+                <div role="option" class="item">
+                    <img src="imgs/carousel-9.jpg" alt="inspectors examining filth">
                 </div>
-                <div class="item">
-                    <img src="imgs/carousel-10.jpg" alt="9">
+                <div role="option" class="item">
+                    <img src="imgs/carousel-10.jpg" alt="Inspectors on bicycles">
                 </div>
 
             </div>
