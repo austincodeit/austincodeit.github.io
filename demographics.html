@@ -20,8 +20,10 @@
 
     <!-- Custom styles for this template -->
     <link href="css/custom-theme.css" rel="stylesheet">
+	    <!-- Modified the navbar links for accessbility-->
+    <link href="css/navbarcustom.css" rel="stylesheet">
 
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon2.ico" type="image/x-icon">
     <style>
         .sources {
             font-size: 9px;
@@ -68,8 +70,10 @@
                 <div class="col-xs-6 col-xs-offset-3 col-sm-4 col-sm-offset-4">
                     <div class="dropdown demo-dropdown">
                         <div>Service Zone</div>
-                        <select class="form-control" onchange="myFunction(this.value)">
-                            <option value="C1">C1</option>
+                        <select id="mapchoice" class="form-control" onchange="myFunction(this.value)">
+                            <script type="text/javascript" src="js/maplist.js"></script>  <!-- JS function for creation of drop down list of map zone. Just call 
+                          the function and paramaters of name and number-->
+							<!-- <option value="C1">C1</option>
                             <option value="C2">C2</option>
                             <option value="C3">C3</option>
                             <option value="C4">C4</option>
@@ -105,7 +109,7 @@
                             <option value="S6">S6</option>
                             <option value="S7">S7</option>
                             <option value="S8">S8</option>
-                            <option value="S9">S9</option>
+                            <option value="S9">S9</option> -->
 
       						</select>
                     </div>
