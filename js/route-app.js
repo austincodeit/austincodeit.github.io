@@ -2,19 +2,28 @@ let global_pdf = {};
 let global_func = {};
 let $activeElement;
 let mapTaskListItem; //global function for mapping task list items
+let global_start = Date.now();
 
 $(document).ready( function() {
 
     $("#loading-overlay").fadeIn("slow");
 
     (function everythingIsLoadedYet(){
-        //if eeverything is loaded remove the overlay and proceed.
+        // console.log(Date.now())
+        let takingTooLong = Date.now() - global_start;
+        if (takingTooLong > 6000){
+            window.location.reload(true);
+            return;
+        }
+        //if everything is loaded remove the overlay and proceed.
         if (typeof mapTaskListItem !== 'function') {
             setTimeout(function() {
-                everythingIsLoadedYet();
                 initialize();
-            }, 1000)
+                everythingIsLoadedYet();
+                // console.log(mapTaskListItem);
+            }, 2000)
         } else {
+            // console.log("it's ready but we are still going");
             $("#loading-overlay").fadeOut("slow");
         }
     }());//an immediately invoked function
