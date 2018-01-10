@@ -5,9 +5,9 @@ function myFunction(zone) {
     DrawCharts(zone);
 
     //IMAGE OF ZONE
-    document.getElementById("zone-screenshot").src="./imgs/zones/Map_"+ zones +".png";
+    document.getElementById("zone-screenshot").src="./imgs/zones/Map_"+ zone +".png";
     //HREF OF ZONE
-    document.getElementById("zone-link").href="./imgs/zones/Map_"+ zones +".png";
+    document.getElementById("zone-link").href="./imgs/zones/Map_"+ zone +".png";
     //TEXT OF ZONE
     $.ajax({
         url: "data/textfiles/" + zone + "INTRO.txt",
