@@ -48,8 +48,7 @@ function DrawCharts(zone) {
 
     var json1 = d3.csv("data/mdc_v2.csv", function(d) {
         json1 = d;
-        johnnyc = d;
-
+        
         for (var i = 0; i < json1.length; i++) {
             incomeData.push(parseInt(json1[i][zone + "Income"]));
             councilDistData.push(json1[i][zone + "Cdistrict"]);
