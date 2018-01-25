@@ -49,7 +49,7 @@ $(document).ready( function() {
             setTimeout(function() {
                 initialize();
             }, 1000)
-        }
+        };
 
         let myLatlng = new google.maps.LatLng(30.3344316, -97.6791038);
         let mapOptions = {
@@ -60,7 +60,7 @@ $(document).ready( function() {
             }
             // styles: snazzySyle
             // mapTypeId: google.maps.MapTypeId.ROADMAP
-        }
+        };
         map = new google.maps.Map(document.getElementById('map'), mapOptions);
         geocoder = new google.maps.Geocoder();
         directionsService = new google.maps.DirectionsService;
@@ -231,6 +231,7 @@ $(document).ready( function() {
         // $("#app-actions").show();
         //clear existing points
         updateMarkerOrder(null);
+        // directionsDisplay.setMap(null);
         addressMarkerArray = [];
         global_pdf.route_stops = [];
         directionsDisplay.setMap(map);
@@ -294,6 +295,9 @@ $(document).ready( function() {
             },
             travelMode: 'DRIVING'
         }, function(response, status) {
+            console.log('directions service response: ', response);
+            console.log('directions service status: ', status);
+
             if (status === 'OK') {
                 //if we get an OK response, add the directions, and show the appropriate elements
                 console.log('driving directions updated....')
@@ -306,6 +310,7 @@ $(document).ready( function() {
                 let timeCalc = 0,
                     distanceCalc = 0;
                 // For each route, display summaryinformation.
+                console.log('route legs via display, ', route.legs);
                 for (let i = 0; i <= route.legs.length; i++) {
                     let routeSegment = i - 1;
                     let legDistance, legDuration;
@@ -374,7 +379,7 @@ $(document).ready( function() {
     }
 
     let updateDirectionsDisplay = function(response) {
-        console.log(response);
+        console.log('update directions display: ', response);
         let summaryPanel = document.getElementById('directions-panel');
 
         let route = response.routes[0];
@@ -382,6 +387,7 @@ $(document).ready( function() {
         //
         let timeCalc = 0,
             distanceCalc = 0;
+
         // For each route, display summaryinformation.
         for (let i = 0; i <= route.legs.length; i++) {
             let routeSegment = i - 1;
@@ -400,8 +406,10 @@ $(document).ready( function() {
                 // console.log('new leg??? ' + legDuration);
             }
             //update global_pdf object for printing purposes
-            global_pdf.tasks[i].leg_dist = legDistance;
-            global_pdf.tasks[i].leg_time = legDuration;
+            if (global_pdf.tasks.length > 0){
+                global_pdf.tasks[i].leg_dist = legDistance;
+                global_pdf.tasks[i].leg_time = legDuration;
+            }
 
         }
 
