@@ -295,13 +295,9 @@ $(document).ready( function() {
             },
             travelMode: 'DRIVING'
         }, function(response, status) {
-            console.log('directions service response: ', response);
-            console.log('directions service status: ', status);
 
             if (status === 'OK') {
                 //if we get an OK response, add the directions, and show the appropriate elements
-                console.log('driving directions updated....')
-                // console.log(response);
                 directionsDisplay.setDirections(response);
 
                 let route = response.routes[0];
@@ -310,7 +306,6 @@ $(document).ready( function() {
                 let timeCalc = 0,
                     distanceCalc = 0;
                 // For each route, display summaryinformation.
-                console.log('route legs via display, ', route.legs);
                 for (let i = 0; i <= route.legs.length; i++) {
                     let routeSegment = i - 1;
                     let legDistance, legDuration;
@@ -379,7 +374,6 @@ $(document).ready( function() {
     }
 
     let updateDirectionsDisplay = function(response) {
-        console.log('update directions display: ', response);
         let summaryPanel = document.getElementById('directions-panel');
 
         let route = response.routes[0];
@@ -717,7 +711,6 @@ $(document).ready( function() {
                             infowindow.open(map, newTaskMarker);
 
                             $("button.popup").unbind('click').bind('click', function(e){
-                                console.log(e);
                                 let id = e.target.id;//folder number of address
                                 if (id.length < 1){
                                     return;
