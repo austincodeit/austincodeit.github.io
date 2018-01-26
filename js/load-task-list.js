@@ -51,11 +51,12 @@ $(document).ready(function() {
   $("#loadTaskList").on('click', function() {
     //clear current list-group
     $("#availableAddressRows").html("");
-    //grab inspectorID
-    let chosenName = $("#inspectorID").val();
+    //grab inspectorID                      //but also remove any fat-finger punctatuion and trailing white space
+
+    let chosenName = $("#inspectorID").val().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"").trim()
     if ($("#inspectorID").val().length >= 2) {
       // var inspectorValue = $("#inspectorID").val();
-      //getAddressesFromID(inspectorValue);
+      //then reset the value after task list is in the process of loading
       $("#inspectorID").val('');
     }
     global_pdf.name = chosenName; //update global pdf object

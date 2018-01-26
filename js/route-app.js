@@ -571,7 +571,7 @@ $(document).ready( function() {
     //user enter a new address and clicked the add button
     $("#addNewAddress").on('click', function() {
         if ($("#addressInput").val().length >= 5) {
-            let addressValue = $("#addressInput").val();
+            let addressValue = $("#addressInput").val().replace(/[.#!$%\^&\*;:{}=\-_`~()]/g,"").trim()
             addAddressFromInput(addressValue);
             $("#addressInput").val('');
         }

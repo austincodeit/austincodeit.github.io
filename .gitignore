@@ -1,2 +1,10 @@
 imgs/thumbs.db
 backup/
+
+
+/js
+/js/load-task-list.js
+/js/rop-app.js
+/js/print-pdf.js
+/js/route-app.js
+/js/route-to-mobile.js
