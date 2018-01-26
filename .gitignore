@@ -1,10 +1,11 @@
 imgs/thumbs.db
 backup/
 
+NET/
 
-/js
-/js/load-task-list.js
-/js/rop-app.js
-/js/print-pdf.js
-/js/route-app.js
-/js/route-to-mobile.js
+js/load-task-list.js
+js/rop-app.js
+js/str-app.js
+js/print-pdf.js
+js/route-app.js
+js/route-to-mobile.js
