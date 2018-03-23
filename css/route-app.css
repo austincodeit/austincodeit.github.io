@@ -356,7 +356,22 @@ background-color: #b6ac9b;
   display: none;
 }
 #smart-routing-off{
-    display: none
+  display: none;
+}
+
+#dialog a:focus{
+  outline:none;
+}
+div.ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-draggable.ui-resizable > div.ui-dialog-titlebar.ui-corner-all.ui-widget-header.ui-helper-clearfix.ui-draggable-handle > button{
+  display:none;
+}
+#dialog .table{
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+div.ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-draggable.ui-resizable > div.ui-dialog-titlebar.ui-corner-all.ui-widget-header.ui-helper-clearfix.ui-draggable-handle{
+  background: #fcf8e3;
+  background-color: #fcf8e3;
 }
 @media only screen and (max-width: 767px) {
 
