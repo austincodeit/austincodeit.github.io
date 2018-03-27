@@ -288,6 +288,15 @@ button#getGoogleUrl[disabled]{
     border-style: solid;
     border-color: black transparent transparent transparent;
 }
+/* second tooltip */
+.btn span#routeToolTip.tooltiptext{
+  width: 200px;
+  margin-left: -100;
+}
+.btn:hover span#routeToolTip.tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
 /* animation */
 @-webkit-keyframes spin {
   0% {
