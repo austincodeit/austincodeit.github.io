@@ -200,6 +200,11 @@
                             <span class="tooltiptext">Create a route first!</span>
                             Create PDF (Firefox only)</button>
                     </div>
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-default btn-lg" id="getGoogleUrl" disabled="true">
+                            <span class="tooltiptext">Create a route first!</span>
+                            Get Route URL</button>
+                    </div>
                     <div class="btn-group" role="group" id="mobileFunc">
                         <button class="btn btn-default btn-lg" id="mobileApp" failUrlAndroid="https://play.google.com/store/apps/details?id=com.google.android.apps.maps&hl=en"
                             failUrlIOS="itms-apps://itunes.apple.com/us/app/google-maps-navigation-transit/id585027354?mt=8">
@@ -229,7 +234,7 @@
         </section>
     </div>
 
-    <div id="dialog" title="WARNING">
+    <div id="dogDialog" title="WARNING">
         <p class="text-danger">This address was found in "Declared Dangerous Dogs" on the Open Data Portal.
             <a class="text-info" href="https://data.austintexas.gov/Health-and-Community-Services/Map-of-Declared-Dangerous-Dogs/ri75-pahg"
                 target="_blank">Click here to visit the dataset</a>
@@ -256,7 +261,30 @@
         </table>
         <!-- Indicates caution should be taken with this action -->
         <div style="text-align: center; margin: 10px">
-            <button type="button" class="btn btn-default" id="close-caution-modal">Close</button>
+            <button type="button" class="btn btn-danger" id="close-caution-modal">Close</button>
+        </div>
+    </div>
+    <div id="urlDialog" title="URL for Mobile">
+        <p class="">This link is your route. </p>
+        <div class="well">
+            <p class="">Use the link below to open Google Maps and send it to your phone OR email it to yourself using Microsoft Outlook.</p>
+            <div class="input-group">
+                <span class="input-group-btn" style="font-size: inherit" >
+                    <button class="btn btn-default" id="copy-url-from-modal" type="button">Copy Shortened URL</button>
+                </span>
+                <input type="text" class="form-control" id="google_url_input">
+            </div>
+            <div class="alert alert-info" role="alert" style="text-align:center">
+                <strong><span id='google_url_link'></span></strong>
+            </div>
+            <br/>
+            <p>Once in Google Maps find a link similar to this:</p>
+            <a href="" target="_blank"><img src="https://i.imgur.com/x30TK1e.png" width="100%"/></a>
+            
+        </div>
+        <!-- Indicates caution should be taken with this action -->
+        <div style="text-align: center; margin: 10px">
+            <button type="button" class="btn btn-default" id="close-url-modal">Close</button>
         </div>
     </div>
     <!-- js files -->
@@ -323,14 +351,6 @@
             return false;
         } -->
     </script>
-    <!-- <iframe id="ManualFrame"
-        frameborder="0"
-        width='100%'
-        height='100%'
-        style="border:0"
-        allowfullscreen>
-</iframe> -->
-
 
 </body>
 

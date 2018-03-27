@@ -147,7 +147,8 @@ ul#dropdownChoice{
 }
 
 button#createRoute[disabled],
-button#createPDF[disabled]{
+button#createPDF[disabled],
+button#getGoogleUrl[disabled]{
   opacity: 1;
 }
 
@@ -383,6 +384,7 @@ div.ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-draggable.ui
   }
   div#mapResults div#app-actions button#mobileApp.btn,
   div#mapResults div#app-actions button#createPDF.btn,
+  div#mapResults div#app-actions button#getGoogleUrl.btn,
   div#taskListOptions div#app-controls button.btn
   {
     font-size: 14px;
