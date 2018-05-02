@@ -1,6 +1,21 @@
 
 $(document).ready(function(){
-    
+    /** returns numbers in first array, not found in second array 
+     * https://stackoverflow.com/questions/18383636/compare-2-arrays-of-objects-with-underscore-to-find-the-differnce
+     * **/
+    var difference = function(array){
+        var rest = Array.prototype.concat.apply(Array.prototype, Array.prototype.slice.call(arguments, 1));
+     
+        var containsEquals = function(obj, target) {
+         if (obj == null) return false;
+         return _.any(obj, function(value) {
+           return _.isEqual(value, target);
+         });
+       };
+     
+       return _.filter(array, function(value){ return ! containsEquals(rest, value); });
+     };
+
     var print_compare_results = function(output){
         console.log(output);
         var sheetNames = Object.keys(output) //the name of each spreadsheet
@@ -8,12 +23,33 @@ $(document).ready(function(){
         $("#spreadsheet-count").html(sheetCount);
         // console.log(sheetNames);
         // console.log(sheetCount);
+        var objectsToCompare = {...output};  //make copy of source
+        //first lets get the general summary and also filter out unusable sheets
         _.each(output, function(elem, idx){
             var rowCount = elem.length;
             var colCount = elem[0].length;
-            $("#spreadsheet-list").append('<li class="collection-item"><div>'+idx+'<span class="new badge" data-badge-caption="cols">'+colCount+'</span><span class="new badge" data-badge-caption="rows">'+rowCount+'</span></div></li>')
+            $("#spreadsheet-list").append('<li class="collection-item"><div>'+idx+'<span class="new badge" data-badge-caption="cols">'+colCount+'</span><span class="new badge" data-badge-caption="rows">'+rowCount+'</span></div></li>');
+            //if the row count of the sheet is more than one row, use it to compare
+            if (rowCount <= 1){
+                /// delete from copy
+                delete objectsToCompare[idx]
+            }
         });
 
+        //now we look for things in one sheet that are not in the others...
+        _.each(objectsToCompare, function(elem, idx){
+
+            _.each(objectsToCompare, function(subElem, subIdx){
+                if (idx !== subIdx){
+                    $("#compare-sheets").append("<h6>Rows in sheet <b>"+idx+"</b>, not found in sheet...<b>"+subIdx+"</b> </h6>")
+                    console.log(difference(elem, subElem))
+                    $("#compare-sheets").append( JSON.stringify(difference(elem, subElem)) )
+                }
+
+            })
+
+        })
+        // console.log(arrayToCompare);
         
     }
     var X = XLSX;
@@ -44,43 +80,49 @@ $(document).ready(function(){
             return result;
             // return JSON.stringify(result);
         };
-        var to_csv = function to_csv(workbook) {
-            var result = [];
-            workbook.SheetNames.forEach(function(sheetName) {
-                var csv = X.utils.sheet_to_csv(workbook.Sheets[sheetName]);
-                if(csv.length){
-                    result.push("SHEET: " + sheetName);
-                    result.push("");
-                    result.push(csv);
-                }
-            });
-            return result.join("\n");
-        };
-        var to_fmla = function to_fmla(workbook) {
-            var result = [];
-            workbook.SheetNames.forEach(function(sheetName) {
-                var formulae = X.utils.get_formulae(workbook.Sheets[sheetName]);
-                if(formulae.length){
-                    result.push("SHEET: " + sheetName);
-                    result.push("");
-                    result.push(formulae.join("\n"));
-                }
-            });
-            return result.join("\n");
-        };
-        var to_html = function to_html(workbook) {
-            HTMLOUT.innerHTML = "";
-            workbook.SheetNames.forEach(function(sheetName) {
+        // var to_csv = function to_csv(workbook) {
+        //     var result = [];
+        //     workbook.SheetNames.forEach(function(sheetName) {
+        //         var csv = X.utils.sheet_to_csv(workbook.Sheets[sheetName]);
+        //         if(csv.length){
+        //             result.push("SHEET: " + sheetName);
+        //             result.push("");
+        //             result.push(csv);
+        //         }
+        //     });
+        //     return result.join("\n");
+        // };
+        // var to_fmla = function to_fmla(workbook) {
+        //     var result = [];
+        //     workbook.SheetNames.forEach(function(sheetName) {
+        //         var formulae = X.utils.get_formulae(workbook.Sheets[sheetName]);
+        //         if(formulae.length){
+        //             result.push("SHEET: " + sheetName);
+        //             result.push("");
+        //             result.push(formulae.join("\n"));
+        //         }
+        //     });
+        //     return result.join("\n");
+        // };
+        // var to_html = function to_html(workbook) {
+        //     HTMLOUT.innerHTML = "";
+        //     workbook.SheetNames.forEach(function(sheetName) {
 
-                var htmlstr = X.write(workbook, {sheet:sheetName, type:'string', bookType:'html'});
-                HTMLOUT.innerHTML += htmlstr;
-            });
-            return "";
-        };
+        //         var htmlstr = X.write(workbook, {sheet:sheetName, type:'string', bookType:'html'});
+        //         HTMLOUT.innerHTML += htmlstr;
+        //     });
+        //     return "";
+        // };
         return function process_wb(wb) {
             global_wb = wb;
             var output = to_json(wb)  
-            print_compare_results(output)
+            // console.log(Object.keys(output).length)
+            if (Object.keys(output).length > 0){
+                $(".compare-results").show();
+                print_compare_results(output);
+            } else {
+                $("#err-display").show();
+            }
             // if(OUT.innerText === undefined) OUT.textContent = output;
             // else OUT.innerText = output;
             // if(typeof console !== 'undefined') console.log("output", new Date());
@@ -150,17 +192,19 @@ $(document).ready(function(){
             do_file(e.dataTransfer.files);
         }
         function handleDragover(e) {
-            $(this).css("background","#607d8b");
-            console.log('hover');
+            $(this).parent().css("background","#607d8b");
             e.stopPropagation();
             e.preventDefault();
             e.dataTransfer.dropEffect = 'copy';
         }
-        // $("#my-drop-box").hover(function(){
-        //     $(this).css("background", "#F00");
-        // });
-        // fun
+
+        function handleDragleave(e) {
+            $(this).parent().css("background","#546e7a");
+            e.stopPropagation();
+            e.preventDefault();
+        }
         drop.addEventListener('dragenter', handleDragover, false);
+        drop.addEventListener('dragleave', handleDragleave, false);
         drop.addEventListener('dragover', handleDragover, false);
         drop.addEventListener('drop', handleDrop, false);
     })();
@@ -174,4 +218,8 @@ $(document).ready(function(){
     })();
 
     // $('select').formSelect();
+    /** onload settings **/
+    $(".compare-results").hide()
+    $("#err-display").hide();
+    
 });

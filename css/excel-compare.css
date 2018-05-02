@@ -1,0 +1,44 @@
+ul {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.card .card-content {
+    padding: 18px;
+    min-height: 200px;
+}
+
+.mid{
+    margin: 25px 0 25px 0;
+}
+
+table tbody td{
+    padding: 7px 5px;
+}
+
+#drop, #upload{
+    border:2px dashed #bbb;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    border-radius:5px;
+    padding:25px;
+    text-align:center;
+}
+
+#b64data{
+    width:100%;
+}
+
+a { 
+    text-decoration: none 
+}
+
+section {
+    margin: 50px 0 50px 0;
+}
+.compare-results{
+    display: none
+}
+#err-display{
+    display: none
+}
