@@ -17,7 +17,7 @@ $(document).ready(function(){
      };
 
     var print_compare_results = function(output){
-        console.log(output);
+        // console.log(output);
         var sheetNames = Object.keys(output) //the name of each spreadsheet
         var sheetCount = sheetNames.length; //get number of spreadsheets
         $("#spreadsheet-count").html(sheetCount);
@@ -42,7 +42,7 @@ $(document).ready(function(){
             _.each(objectsToCompare, function(subElem, subIdx){
                 if (idx !== subIdx){
                     $("#compare-sheets").append("<h6>Rows in sheet <b>"+idx+"</b>, not found in sheet...<b>"+subIdx+"</b> </h6>")
-                    console.log(difference(elem, subElem))
+                    // console.log(difference(elem, subElem))
                     $("#compare-sheets").append( JSON.stringify(difference(elem, subElem)) )
                 }
 
@@ -51,7 +51,7 @@ $(document).ready(function(){
         })
         // console.log(arrayToCompare);
         $("#loading-overlay").hide();
-        console.log('done')
+        // console.log('done')
     }
     var X = XLSX;
     var XW = {
