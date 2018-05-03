@@ -50,7 +50,8 @@ $(document).ready(function(){
 
         })
         // console.log(arrayToCompare);
-        
+        $("#loading-overlay").hide();
+        console.log('done')
     }
     var X = XLSX;
     var XW = {
@@ -186,7 +187,7 @@ $(document).ready(function(){
         function handleDrop(e) {
             $(this).css("background","#90a4ae");
             $("#drop").html("file accepted");
-            
+            $("#loading-overlay").fadeIn("slow");
             e.stopPropagation();
             e.preventDefault();
             do_file(e.dataTransfer.files);
@@ -221,5 +222,7 @@ $(document).ready(function(){
     /** onload settings **/
     $(".compare-results").hide()
     $("#err-display").hide();
+    
+    
     
 });

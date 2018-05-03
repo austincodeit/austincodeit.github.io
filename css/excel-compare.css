@@ -42,3 +42,77 @@ section {
 #err-display{
     display: none
 }
+
+/* animation section for loading map results */
+#loading-overlay {
+    display: none;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top:0;
+    background: #dddddd;
+    z-index: 1000;
+    opacity: 0.85;
+    color: #777777;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    font-size: 34px;
+}
+.loaders {
+  height: 100%;
+  line-height: 100px;
+  padding-top: 75px;
+}
+.loader {
+  display: inline-block;
+  position: relative;
+  width: 50px;
+  height: 50px;
+  vertical-align: middle;
+}
+/*	$Loader Quadrant
+	========================================================================== */
+    .loader-quart {
+        border-radius: 50px;
+        border: 6px solid rgba(255, 255, 255, 0.4);
+      }
+      .loader-route-quart {
+        border-radius: 50px;
+        border: 6px solid #888888;
+      }
+      .loader-quart:after,
+      .loader-route-quart:after {
+        content: '';
+        position: absolute;
+        top: -6px;
+        right: -6px;
+        bottom: -6px;
+        left: -6px;
+        border-radius: 50px;
+        border: 6px solid transparent;
+        border-top-color: #fff;
+        -webkit-animation: spin 1s linear infinite;
+        animation: spin 1s linear infinite;
+      }
+      /* animation */
+@-webkit-keyframes spin {
+    0% {
+      -webkit-transform: rotate(0deg);
+      tranform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+      tranform: rotate(360deg);
+    }
+  }
+  @keyframes spin {
+    0% {
+      -webkit-transform: rotate(0deg);
+      tranform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+      tranform: rotate(360deg);
+    }
+  }
