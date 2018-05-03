@@ -50,7 +50,7 @@ $(document).ready(function(){
 
         })
         // console.log(arrayToCompare);
-        $("#loading-overlay").hide();
+        $("#loading-overlay").fadeOut();
         // console.log('done')
     }
     var X = XLSX;
@@ -190,7 +190,12 @@ $(document).ready(function(){
             $("#loading-overlay").fadeIn("slow");
             e.stopPropagation();
             e.preventDefault();
-            do_file(e.dataTransfer.files);
+            let files = e.dataTransfer.files
+            console.log(files)
+            setTimeout(function(){
+                console.log(files)
+                do_file(files);
+            }, 1000)
         }
         function handleDragover(e) {
             $(this).parent().css("background","#607d8b");
