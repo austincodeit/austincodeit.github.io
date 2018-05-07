@@ -1,3 +1,15 @@
+/**
+ * this app is broken up into several modules:
+ * _initTasks - functions to run at the start of the application
+ * _openDataLoader - functions, variables used for grabbing stuff from the socrata API
+ * _mapMod - functions, variables used for connecting with the various google APIs
+ * _printMod - functions, variables used for printing or creating output variables about the route created
+ * _tableMod - functions, variables used for working with the two tables on the left side of the screen
+ * _mobileMod - functions, variables used for getting route details and sending a final link to your phone
+ * _utilityMod - functions, variables that are helper tasks
+ * _dangerDogs - functions, variables related to the search for dangerous dogs
+ */
+
 (function($, _) {
 
         //this is a custom style you can get at snazzymaps.com really easy to create one and add it to your map.
@@ -17,13 +29,12 @@
                 _tableMod.initTableMod();
                 _mapMod.initialize();
 
-     
             },
             appStart: Date.now(),
             clickEvents: function(){
                 $("#loadTaskList").on('click', _tableMod.loadTaskList )
-                $("#smart-routing-on").on('click', _mapMod.smartRoutingOn)
-                $("#smart-routing-off").on('click', _mapMod.smartRoutingOff)
+                $("#smart-routing-on").on('click', _mapMod.smartRoutingOn )
+                $("#smart-routing-off").on('click', _mapMod.smartRoutingOff )
 
                 //user clicked the create route button
                 $("#createRoute").on('click', _mapMod.createRoute);
@@ -41,6 +52,29 @@
                         _mapMod.addAddressFromInput(addressValue);
                         $("#addressInput").val('');
                     }
+                });
+                $("#mobileFunc").on('click', _mobileMod.sendMapToMobile );
+                  
+                $("#getGoogleUrl").on('click', _mobileMod.openGoogleUrlDialog );
+                  
+                $("#close-url-modal").on('click', function(){
+                    // console.log('dialog closed')        
+                    // close dialog box on click
+                    $("#urlDialog").dialog("close");
+                    $("#urlDialog").hide();
+                });
+              
+                $("#copy-url-from-modal").on('click', function(){
+                    var copyText = document.getElementById("google_url_input");
+                    // console.log(copyText);
+                    copyText.select();
+                    document.execCommand("Copy");
+                    // alert("Copied the text: " + copyText.value);
+                    $("span#routeToolTip.tooltiptext").html("Copied: " + copyText.value );
+                });
+
+                $("#copy-url-from-modal").mouseout(function() {
+                    $("span#routeToolTip.tooltiptext").html("Copy to Clipboard");
                 });
                    
 
@@ -261,16 +295,16 @@
                 _printMod.start = locationArray[0];
                 _printMod.end = locationArray[locationArray.length - 1];
                 _printMod.tasks = [];
-                this.timeOfDeparture = new Date(Date.now() + 1000);
+                _mapMod.timeOfDeparture = new Date(Date.now() + 1000);
                 //google's direction service
-                console.log(_mapMod.smartRoutingOption)
+                // console.log(_mapMod.smartRoutingOption)
                 this.directionsService.route({
                     origin: start, //document.getElementById('start').value,
                     destination: finish, //document.getElementById('end').value,
                     waypoints: waypts,
                     optimizeWaypoints: _mapMod.smartRoutingOption, //uncomment and it will make the best route for you....
                     drivingOptions: {
-                        departureTime: this.timeOfDeparture,
+                        departureTime: _mapMod.timeOfDeparture,
                         trafficModel: 'bestguess'
                     },
                     travelMode: 'DRIVING'
@@ -573,7 +607,7 @@
                                 //theses functions help with updates
                                 _tableMod.validateRemoveButton();
                                 _tableMod.adjustRowCount();
-                                console.log(latitude, longitude);
+                                // console.log(latitude, longitude);
                                 _mapMod.placeLatLngOnMap(_utilityMod.extractLATLNG('('+latitude+','+longitude+')'), popUpText, false);
                                 infowindow.close();
                             });
@@ -689,7 +723,7 @@
                 });
             },
             placeLatLngOnMap: function(coords, popUpText, sort) {
-                console.log(coords);
+                // console.log(coords);
                 this.addMarker(coords, popUpText, sort);
                 return true;
             },
@@ -771,22 +805,22 @@
             adjustMapBounds: function(){
                 if (this.addressMarkerArray.length <= 1) {
                     //move map to singular point
-                    this.myMap.setCenter(this.addressMarkerArray[0].getPosition());
+                    _mapMod.myMap.setCenter(_mapMod.addressMarkerArray[0].getPosition());
                 } else {
                     let bounds = new google.maps.LatLngBounds();
                     // showing only 2 visible 1 hidden (because of markers.length-1)
-                    for (let i = 0; i < this.addressMarkerArray.length; i++) {
+                    for (let i = 0; i < _mapMod.addressMarkerArray.length; i++) {
                         // extending bounds to contain this visible marker position
-                        bounds.extend(this.addressMarkerArray[i].getPosition());
+                        bounds.extend(_mapMod.addressMarkerArray[i].getPosition());
                     }
                     // setting new bounds to visible markers of 2
-                    this.myMap.fitBounds(bounds);
+                    _mapMod.myMap.fitBounds(bounds);
                 }
             },
             removeSpecificMarker: function(rowIdx){
-                this.iconCount = this.iconCount - 1;
-                this.addressMarkerArray[rowIdx].setMap(null);
-                this.addressMarkerArray.splice(rowIdx, 1);
+                _mapMod.iconCount = _mapMod.iconCount - 1;
+                _mapMod.addressMarkerArray[rowIdx].setMap(null);
+                _mapMod.addressMarkerArray.splice(rowIdx, 1);
             }
             
         };
@@ -1043,7 +1077,75 @@
             }
     }
 
-        let _mobileMod = {}
+        let _mobileMod = {
+            sendMapToMobile: function(){
+                let _destinationsA = _printMod.route_stops;
+                let mobile_start = "comgooglemaps://?saddr=My+Location";
+                let mobile_end = "";
+                let midpoints = "";
+                // console.log(destinations.length);
+                for (let i = 0; i < _destinationsA.length; i++){
+                  // console.log(i)
+                  // console.log(destinations[i]);
+                  if (i == _destinationsA.length - 1){
+                    mobile_end = "&daddr="+_destinationsA[i].lat+","+_destinationsA[i].lng+"";
+                  } else {
+                    midpoints += "+to:"+_destinationsA[i].lat+","+_destinationsA[i].lng+"";
+                  }
+                }
+                // for each wypt
+                //   midpoint+="+to:"+locale
+                let href = mobile_start+mobile_end+midpoints+"&views=traffic";
+                  // window.location("comgooglemaps://?saddr=Austin,TX&daddr=Mason,TX+to:Elgin,TX+to:Temple,TX&views=traffic");
+          
+                window.open(href);
+                // console.log(global_pdf.route_stops);
+                // console.log(href);
+              },
+              openGoogleUrlDialog: function(){
+                  
+                let _ye1k = 'AIzaSyBkX7t3wj7BDkky2ZxOv52yNFeztG5sAeQ',
+                    _ye2k = 'AIzaSyC4To8GZj9511LEiP7H2lhyWSk81z2RP2g',
+                    _ye3k = 'AIzaSyBDFgM9Whn_J7swb8KylqBNWgk7rmAUNqo',
+                    _ye4k = 'AIzaSyCE73DP1P7-HCe-3-SmzTcezkhq444LiJE',
+                    _ye5k = 'AIzaSyDbgsx9ceKjhLM5_IEg87b2wtiqChtKCJY';
+                let _ye0ks = [_ye1k, _ye2k, _ye3k, _ye4k, _ye5k];
+                let _destinationsB = _printMod.route_stops;
+                let google_url_start = "https://www.google.com/maps/dir/";
+                let urlWayPoint = "";
+                // console.log(destinations.length);
+                for (let i = 0; i < _destinationsB.length; i++){
+                  urlWayPoint += ""+_destinationsB[i].lat+","+_destinationsB[i].lng+"/";
+          
+                }
+                let _selectedYek = _ye0ks[Math.floor(Math.random() * 5)] //randomly select key
+                let postUrl = "https://www.googleapis.com/urlshortener/v1/url?&key=" + _selectedYek;
+                let _longUrl = google_url_start+urlWayPoint+"&views=traffic";
+          
+                ///make request to google shorterner API service
+                $.ajax({
+                  url: postUrl,
+                  type: "POST",
+                  dataType: 'json',
+                  contentType: 'application/json; charset=utf-8',
+                  data: '{ longUrl: "' + _longUrl +'"}',
+                }).done(function(data) {
+                    $("#google_url_input").val(data.id);
+                    $("#google_url_link").html("<a href="+data.id+" target='_blank'>Open in Google Maps: "+data.id+"</a>");
+            
+                    $("#urlDialog").show();
+                    $( "#urlDialog" ).dialog({
+                        width: 500,
+                        close: function( event, ui ) {
+                            
+                            $("#urlDialog").hide();
+                            $("#google_url_link").html("");
+                        }
+                    });
+                  
+                }); //end of ajax request
+            }
+        }
         
         let _utilityMod = {
             $activeElement: null,
@@ -1474,8 +1576,5 @@
         }
 		
 		_initTasks.all();
-
-
-
     
-})(jQuery, _ );
+})(jQuery, _ ); //load jquery.js and underscore.js
