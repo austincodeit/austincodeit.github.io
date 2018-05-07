@@ -57,13 +57,10 @@
                   
                 $("#getGoogleUrl").on('click', _mobileMod.openGoogleUrlDialog );
                   
-                $("#close-url-modal").on('click', function(){
-                    // console.log('dialog closed')        
-                    // close dialog box on click
-                    $("#urlDialog").dialog("close");
-                    $("#urlDialog").hide();
-                });
-              
+                $("#close-url-modal").on('click', _mobileMod.closeModal );
+
+                $("#close-caution-modal").on('click', _dangerDogs.closeModal );
+
                 $("#copy-url-from-modal").on('click', function(){
                     var copyText = document.getElementById("google_url_input");
                     // console.log(copyText);
@@ -409,8 +406,8 @@
                 });
                 _tableMod.adjustRowCount();
                 //remove markers from map
-                this.updateMarkerOrder(null);
-                this.directionsDisplay.setMap(null);
+                _mapMod.updateMarkerOrder(null);
+                _mapMod.directionsDisplay.setMap(null);
                 //reset button actions
                 $("#createPDF").prop('disabled', true);
                 $("#createPDF").removeClass('btn-primary');
@@ -424,11 +421,11 @@
                 $("#mobileApp").removeClass('btn-primary');
                 $("#mobileApp").addClass('btn-default');
         
-                this.addressMarkerArray = [];
-                this.iconCount = 0;
+                _mapMod.addressMarkerArray = [];
+                _mapMod.iconCount = 0;
                 $(".header-row th").removeClass("headerSortUp");
                 $(".header-row th").removeClass("headerSortDown");
-                this.initialize();
+                _mapMod.initialize();
             },
             iconCount: 0,
             labels: '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ',
@@ -1078,6 +1075,10 @@
     }
 
         let _mobileMod = {
+            closeModal: function(){
+                $("#urlDialog").dialog("close");
+                $("#urlDialog").hide();
+            },
             sendMapToMobile: function(){
                 let _destinationsA = _printMod.route_stops;
                 let mobile_start = "comgooglemaps://?saddr=My+Location";
@@ -1102,7 +1103,7 @@
                 // console.log(global_pdf.route_stops);
                 // console.log(href);
               },
-              openGoogleUrlDialog: function(){
+            openGoogleUrlDialog: function(){
                   
                 let _ye1k = 'AIzaSyBkX7t3wj7BDkky2ZxOv52yNFeztG5sAeQ',
                     _ye2k = 'AIzaSyC4To8GZj9511LEiP7H2lhyWSk81z2RP2g',
