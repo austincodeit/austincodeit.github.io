@@ -20,7 +20,7 @@
         */
         let _initTasks = {
             all: function(){
-                //at the start of the application, load these initialize functions
+                /* at the start of the application, load these initial functions */
                 this.clickEvents();
                 this.keyPress();
                 this.responsive();
@@ -29,13 +29,15 @@
                 _utilityMod.initUtilityMod();
                 _tableMod.initTableMod();
                 _mapMod.initialize();
-                console.log("loading")
+                // console.log("loading")
             },
             appStart: Date.now(),
             clickEvents: function(){
-                //all the UI click functions in once place
+                /* all the UI click functions in once place */
                 $("#loadTaskList").on('click', _tableMod.loadTaskList )
+                //turn smart routing on
                 $("#smart-routing-on").on('click', _mapMod.smartRoutingOn )
+                //turn smart routing off
                 $("#smart-routing-off").on('click', _mapMod.smartRoutingOff )
 
                 //user clicked the create route button
@@ -55,28 +57,21 @@
                         $("#addressInput").val('');
                     }
                 });
+                //older function for opening route in mobile view
                 $("#mobileFunc").on('click', _mobileMod.sendMapToMobile );
-                  
+                //get route URL from google
                 $("#getGoogleUrl").on('click', _mobileMod.openGoogleUrlDialog );
-                  
+                //close route URL modal  
                 $("#close-url-modal").on('click', _mobileMod.closeModal );
-
+                //copy url with click of button
+                $("#copy-url-from-modal").on('click', _mobileMod.copyText );
+                //reset text helper for route URL
+                $("#copy-url-from-modal").mouseout(_mobileMod.resetText );
+                //close dangerous dogs modal                  
                 $("#close-caution-modal").on('click', _dangerDogs.closeModal );
-
-                $("#copy-url-from-modal").on('click', function(){
-                    var copyText = document.getElementById("google_url_input");
-                    // console.log(copyText);
-                    copyText.select();
-                    document.execCommand("Copy");
-                    // alert("Copied the text: " + copyText.value);
-                    $("span#routeToolTip.tooltiptext").html("Copied: " + copyText.value );
-                });
-
-                $("#copy-url-from-modal").mouseout(function() {
-                    $("span#routeToolTip.tooltiptext").html("Copy to Clipboard");
-                });
+                //PDF function that "kind of" works and only on Firefox
+                $("#createPDF").on('click', _printMod.createFinalPDF );
                    
-
             },
             keyPress: function(){
                 $(document).keypress(function(e) {
@@ -120,7 +115,10 @@
                 }).trigger('resize');
             }
         }
-        
+        /** if someone wanted to change the inputs for this application
+         * start here. update the open data link and the appToken.
+         * one could also adjust the doNotInclude list to create additional filters.
+         * of course, this is relying on the SCHEMA to be the same as the original datasource **/
         let _openDataLoader = {
             appToken: "AmHlGm0OHBl6r4hg0PLvAtJk7",
             appRecordLimit: 8500,
@@ -160,6 +158,7 @@
         let _mapMod = {
             addressMarkerArray: [],
             addAddressFromInput: function(address) {
+                //custom inputs that DO NOT come from the data portal
                 $("#routableAddressRows").append('<tr>' +
                     '<td class="first"><span id="count"></span>' +
                     '<button type="button" class="btn btn-sm btn-default removeAddress">' +
@@ -229,6 +228,29 @@
                 if (sort) {
                     _mapMod.updateMarkerOrder(sort);
                 }
+            },
+            appendRowToRouteTable: function ($tableRow){
+                //get the element so we can add latlngs to it later
+                $activeElement = $($tableRow).children("td#location");
+                $("#routableAddressRows").append('<tr>' +
+                      '<td class="first"><span id="count"></span>' +
+                      '<button type="button" class="btn btn-sm btn-default removeAddress">' +
+                      '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>' +
+                      '</button>' + $($tableRow).children("td:nth-child(1)").text() + '</td>' +
+                      '<td class="b">' + $($tableRow).children("td:nth-child(2)").text() + '</td>' +
+                      '<td class="c" id="location">' + $($tableRow).children("td:nth-child(3)").text() + '</td>' +
+                      '<td class="a">' + $($tableRow).children("td:nth-child(4)").text() + '</td>' +
+                      '<td class="a">' + $($tableRow).children("td:nth-child(5)").text() + '</td>' +
+                      '<td class="a">' + $($tableRow).children("td:nth-child(6)").text() + '</td>' +
+                      '<td class="a">' + $($tableRow).children("td:nth-child(7)").text() + '</td>' +
+                      '<td class="c">' + $($tableRow).children("td:nth-child(8)").text() + '</td>' +
+                      '<td class="c">' + $($tableRow).children("td:nth-child(9)").text() + '</td>' +
+                      '<td class="b" id="pointLat">' + $($tableRow).children("td:nth-child(10)").text() + '</td>' +
+                      '<td class="b" id="pointLng">' + $($tableRow).children("td:nth-child(11)").text() + '</td>' +
+                      '</tr>');
+                //grab the active element because we want to be able to append to it later...
+                $activeElement = $("#routableAddressRows > tr:not(.placeholder):last-child").children("td#location");
+               
             },
             calculateAndDisplayRoute: function() {
                 //1. show actionable buttons
@@ -337,7 +359,7 @@
                                 summaryPanel.innerHTML += '<span id="routeTripTime" class="leg' + i + '"><b>Est. Trip:</b> ' + legDuration + ' | <b>Distance:</b> ' + legDistance + '</span></b><br>';
                                 summaryPanel.innerHTML += 'People: ' + peopleArray[i] + '<br><hr><br>';
                             }
-                            //update global_pdf object for printing purposes
+                            //update _printMod object for printing purposes
                             _printMod.tasks.push({
                                 folder: locationArray[i],
                                 folder_num: caseArray[i],
@@ -355,7 +377,7 @@
                         summaryPanel.innerHTML += '<span id="finalRouteStats"><b>Trip Time:</b> ' + timeCalc.toPrecision(2) + ' mins | <b>Trip Distance:</b> ' + distanceCalc.toPrecision(2) + ' mi</span>';
                         _printMod.map_center = String(_mapMod.myMap.getCenter().toUrlValue());
                         _printMod.map_zoom = String(_mapMod.myMap.getZoom());
-                        // console.log(global_pdf);
+                        // console.log(_printMod);
                     } else if (status === 'MAX_WAYPOINTS_EXCEEDED') {
                         window.alert('Directions request failed due to ' + status + '\nThe limit is 22.');
                         summaryPanel.innerHTML = '';
@@ -395,7 +417,7 @@
                     '<span class="loader loader-route-quart"> </span> Generating Route...' +
                     '</section>' +
                     '</div>');
-                    _mapMod.calculateAndDisplayRoute();
+                _mapMod.calculateAndDisplayRoute();
             },
             resetList: function() {
                 //clear available task list items
@@ -529,8 +551,7 @@
                 this.myMap.setMapTypeId('style_a');
                 // map.setMapTypeId('style_b');
             },
-            mapTaskListItem: function(_obj) {
-                
+            mapTaskListItem: function(list) {
                 let yek1 = 'AIzaSyBXAnW9slEyfpkJKdHxnz_29kF8pn14MA0',
                     yek2 = 'AIzaSyALPWxESCeijSKpKHoduW0htKA6w0KIJnc',
                     yek3 = 'AIzaSyBbnhwYIXT-MBTVIaDxS9kzbqIOmoeqcRU',
@@ -538,10 +559,10 @@
                     yek5 = 'AIzaSyDgR0LEtKMow--eiBeyiCbypLhDMAKCE8E',
                     yek6 = 'AIzaSyC6ag7eWl7tjpaLo94L3w2LYZO41vklZC8';
                 let yeks = [yek1, yek2, yek3, yek4, yek5, yek6];
-                let list = _obj;
-                let taskListTotal = _obj.length;
+                let taskListTotal = list.length;
                 let arrayPos = 0;
                 let progressNumber = 0;
+                //originally loading took a long time, so we created animation, it's almost useless now
                 $("#progress-group").css("height", "20px");
         
                 this.myMap.panTo(new google.maps.LatLng(30.2709246, -97.7481116));
@@ -568,7 +589,8 @@
                         });
                         let popUpWindow = "<div><p>Folder: " + list[arrayPos].foldernumber + "</p><p>" + 
                                     "Address: " + list[arrayPos].foldername + 
-                                    "</p><button style='width:100%' id=" + list[arrayPos].foldernumber + " class='popup btn btn-primary btn-sm'>Add</button></div>";
+                                    "</p><button style='width:100%' id=" + list[arrayPos].foldernumber + 
+                                    " class='popup btn btn-primary btn-sm'>Add</button></div>";
                         let infowindow = new google.maps.InfoWindow({
                             content: popUpWindow
                         });
@@ -583,30 +605,10 @@
                                 let $tableRow = $("#availableAddressRows tr").children("td#"+id+"").parent()[0];
                                 let newAddress = $($tableRow).children("td#location").text().trim() + ", Austin, TX";
                                 let popUpText = $($tableRow).children("td#location").text().trim();
-                                //get the element so we can add latlngs to it later
-                                $activeElement = $($tableRow).children("td#location");
-                                $("#routableAddressRows").append('<tr>' +
-                                      '<td class="first"><span id="count"></span>' +
-                                      '<button type="button" class="btn btn-sm btn-default removeAddress">' +
-                                      '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>' +
-                                      '</button>' + $($tableRow).children("td:nth-child(1)").text() + '</td>' +
-                                      '<td class="b">' + $($tableRow).children("td:nth-child(2)").text() + '</td>' +
-                                      '<td class="c" id="location">' + $($tableRow).children("td:nth-child(3)").text() + '</td>' +
-                                      '<td class="a">' + $($tableRow).children("td:nth-child(4)").text() + '</td>' +
-                                      '<td class="a">' + $($tableRow).children("td:nth-child(5)").text() + '</td>' +
-                                      '<td class="a">' + $($tableRow).children("td:nth-child(6)").text() + '</td>' +
-                                      '<td class="a">' + $($tableRow).children("td:nth-child(7)").text() + '</td>' +
-                                      '<td class="c">' + $($tableRow).children("td:nth-child(8)").text() + '</td>' +
-                                      '<td class="c">' + $($tableRow).children("td:nth-child(9)").text() + '</td>' +
-                                      '<td class="b" id="pointLat">' + $($tableRow).children("td:nth-child(10)").text() + '</td>' +
-                                      '<td class="b" id="pointLng">' + $($tableRow).children("td:nth-child(11)").text() + '</td>' +
-                                      '</tr>');
-                                //grab the active element because we want to be able to append to it later...
-                                $activeElement = $("#routableAddressRows > tr:not(.placeholder):last-child").children("td#location");
-                                //theses functions help with updates
+                                _mapMod.appendRowToRouteTable($tableRow);
+                                 //theses functions help with updates
                                 _tableMod.validateRemoveButton();
                                 _tableMod.adjustRowCount();
-                                // console.log(latitude, longitude);
                                 _mapMod.placeLatLngOnMap(_utilityMod.extractLATLNG('('+latitude+','+longitude+')'), popUpText, false);
                                 infowindow.close();
                             });
@@ -651,27 +653,8 @@
                                         let $tableRow = $("#availableAddressRows tr").children("td#"+id+"").parent()[0];
                                         let newAddress = $($tableRow).children("td#location").text().trim() + ", Austin, TX";
                                         let popUpText = $($tableRow).children("td#location").text().trim();
-                                        //get the element so we can add latlngs to it later
-                                        $activeElement = $($tableRow).children("td#location");
-                                        $("#routableAddressRows").append('<tr>' +
-                                              '<td class="first"><span id="count"></span>' +
-                                              '<button type="button" class="btn btn-sm btn-default removeAddress">' +
-                                              '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>' +
-                                              '</button>' + $($tableRow).children("td:nth-child(1)").text() + '</td>' +
-                                              '<td class="b">' + $($tableRow).children("td:nth-child(2)").text() + '</td>' +
-                                              '<td class="c" id="location">' + $($tableRow).children("td:nth-child(3)").text() + '</td>' +
-                                              '<td class="a">' + $($tableRow).children("td:nth-child(4)").text() + '</td>' +
-                                              '<td class="a">' + $($tableRow).children("td:nth-child(5)").text() + '</td>' +
-                                              '<td class="a">' + $($tableRow).children("td:nth-child(6)").text() + '</td>' +
-                                              '<td class="a">' + $($tableRow).children("td:nth-child(7)").text() + '</td>' +
-                                              '<td class="c">' + $($tableRow).children("td:nth-child(8)").text() + '</td>' +
-                                              '<td class="c">' + $($tableRow).children("td:nth-child(9)").text() + '</td>' +
-                                              '<td class="b" id="pointLat">' + $($tableRow).children("td:nth-child(10)").text() + '</td>' +
-                                              '<td class="b" id="pointLng">' + $($tableRow).children("td:nth-child(11)").text() + '</td>' +
-                                              '</tr>');
-                                        //grab the active element because we want to be able to append to it later...
-                                        $activeElement = $("#routableAddressRows > tr:not(.placeholder):last-child").children("td#location");
-                                        //theses functions help with updates
+                                        _mapMod.appendRowToRouteTable($tableRow);
+                                       //theses functions help with updates
                                         _tableMod.validateRemoveButton();
                                         _tableMod.adjustRowCount();
                                         _mapMod.placeAddressOnMap(newAddress, popUpText, false);
@@ -731,7 +714,6 @@
 
                 let route = response.routes[0];
                 _printMod.route_path = response.routes[0].overview_polyline;
-                //
                 let timeCalc = 0, distanceCalc = 0;
         
                 // For each route, display summaryinformation.
@@ -751,7 +733,7 @@
                         $(".leg" + i + "").html('<span id="routeTripTime"><b>Est. Trip:</b> ' + legDuration + ' | <b>Distance:</b> ' + legDistance + '</span></b><br>');
                         // console.log('new leg??? ' + legDuration);
                     }
-                    //update global_pdf object for printing purposes
+                    //update _printMod object for printing purposes
                     if (_printMod.tasks.length > 0){
                         _printMod.tasks[i].leg_dist = legDistance;
                         _printMod.tasks[i].leg_time = legDuration;
@@ -844,7 +826,197 @@
             },
             setName: function(choseName){
                 this.name = choseName;
-            }
+            },
+            createFinalPDF: function() {
+                /** kind of a disaster **/
+                $("#loading-overlay").fadeIn("slow");
+                // console.log(_printMod);
+                let $directionsText = $('#directions-panel')[0];
+                let pdfOptions = {
+                  orientation: "portrait", // One of "portrait" or "landscape" (or shortcuts "p" (Default), "l")
+                  unit: "mm", //Measurement unit to be used when coordinates are specified. One of "pt" (points), "mm" (Default), "cm", "in"
+                  format: "letter" //One of 'a3', 'a4' (Default),'a5' ,'letter' ,'legal'
+                };
+            
+                let pdf = new jsPDF(pdfOptions);
+                /*formatting*/
+                pdf.setFont("helvetica");
+                pdf.setTextColor(0, 0, 0);
+                pdf.setLineWidth(0.5);
+                let left_margin = 16;
+                const PAGE_HEIGHT = 280;
+                const PAGE_WIDTH = 200;
+                let content_margin = 40;
+                let page_count = 1;
+                let labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            
+                /* utility functions */
+                let getRightMargin = function(obj) { //this function is to adjust width based on obj length
+                  return PAGE_WIDTH - (obj.length * 2);
+                }
+                /* this function will create an encoded string to add the markers to google's static image api */
+                let createMarkerArray = function(markerArray) {
+                  let finalString = '';
+                  for (let i = 0; i < markerArray.length; i++) {
+                    if (i == markerArray.length-1) {
+                      finalString += "&markers=color:green%7Clabel:"+labels[i % labels.length]+"%7C" + String(markerArray[i].lat) + "," + String(markerArray[i].lng);
+                    } else {
+                      finalString += "&markers=color:red%7Clabel:"+labels[i % labels.length]+"%7C" + String(markerArray[i].lat) + "," + String(markerArray[i].lng);
+                    }
+                  }
+                  return finalString
+                }
+            
+                let addLine = function(lineType, yValue) {
+                  if (lineType == "thin"){
+                    pdf.setLineWidth(0.25);
+                    pdf.setDrawColor(200, 200, 200); //add grey dividing line
+                    pdf.line(left_margin, yValue, PAGE_WIDTH, yValue); // horizontal line
+                  } else {
+                    pdf.setLineWidth(0.5);
+                    pdf.setDrawColor(15, 15, 15); //darker color for box
+                    pdf.line(left_margin, yValue, PAGE_WIDTH, yValue);
+                  }
+                }
+            
+                /* setting up the header */
+                let addHeader = function() {
+                  pdf.setFontSize(14);
+                  pdf.text(left_margin, 20, _printMod.name); //inspector name
+                  pdf.setFontSize(10);
+                  pdf.text(left_margin, 27, '' + _printMod.start + ' to ' + _printMod.end); //route address
+                  pdf.text(getRightMargin(_printMod.datestamp), 20, "" + _printMod.datestamp); //today's date
+                  pdf.text(getRightMargin(_printMod.timestamp), 27, "" + _printMod.timestamp); //timestamp
+                  // console.log(_printMod.date.length)
+                  addLine("header", 30);
+                  //code logo from url file
+                  //url, type, x, y, imageHeight, imageWidth
+                  pdf.addImage(codeImgURL, 'JPEG', PAGE_WIDTH / 2, 5, 18, 18);
+                  addFooter(); //add footer
+                }
+            
+                /* setting up the footer */
+                let addFooter = function() {
+                  pdf.setFontSize(8);
+                  pdf.setTextColor(70, 70, 70);
+                  let footerText = 'City of Austin | Open Data Portal | jsPDF | GitHub'
+                  let footerMargin = PAGE_WIDTH / 2 - 20;
+                  let footerHeight = PAGE_HEIGHT - 18;
+                  pdf.text(footerMargin, footerHeight, footerText); //add footer text
+                  pdf.text(PAGE_WIDTH, footerHeight, String(page_count)); //add page number
+                  pdf.setFontType("normal");
+                  pdf.setFontSize(10);
+                  pdf.setTextColor(0, 0, 0);
+                }
+            
+            
+                let $element = $('#sampleImg');
+                let $mapElement = $('#map');
+                let mapWidth = 640 //Math.floor(mapElement.width());
+                let mapHeight = 400 //Math.floor(mapElement.height());
+                let google_1 = "https://maps.googleapis.com/maps/api/staticmap";
+                let google_2 = "?center=" + _printMod.map_center;
+                let google_3 = "&zoom=" + _printMod.map_zoom;
+                let google_4 = "&size=640x400";
+                let google_5 = createMarkerArray(_printMod.route_stops);
+                let google_6 = "&path=weight:4%7Ccolor:blue%7Cenc:" + _printMod.route_path;
+                let google_k = "&key=AIzaSyCSjAnT5cJ03MwURghAT1nZrLz4InNRpP0";
+            
+                let pdfImgWidth = mapWidth * (184 / mapWidth);
+                let pdfImgHeight = mapHeight * (105 / mapHeight);
+                // let mapImgWidth = 184;
+                // let mapImgHeight = 105;
+                let picMarginX = 10 + PAGE_WIDTH / 2;
+                let picMarginY = content_margin - 10;
+            
+                // $(element).attr("src",google_1+google_2+google_3+google_4+google_5+google_6+"&maptype=roadmap"+google_k);
+                // console.log(google_1 + google_2 + google_3 + google_4 + google_5 + google_6 + "&maptype=roadmap" + google_k);
+            
+                function addGoogleMapImage() {
+                  let $canvas = document.getElementById("canvasImg")
+                  let ctx = $canvas.getContext('2d');;
+                  let img = new Image();
+                  img.onload = function() {
+                    //the image has been loaded...
+                    $canvas.width = mapWidth;
+                    $canvas.height = mapHeight;
+                    ctx.drawImage(img, 0, 0, mapWidth, mapHeight);
+                    let dataUrl = $canvas.toDataURL('image/png', 1.0);
+            
+                    pdf.addImage(dataUrl, 'JPEG', left_margin, content_margin - 5, pdfImgWidth, pdfImgHeight);
+                    pdf.setFontType("bold");
+                    pdf.text(left_margin, content_margin + pdfImgHeight + 20, 'Trip Time: ' + _printMod.trip_time + " minutes"); //final row
+                    pdf.text(left_margin + 80, content_margin + pdfImgHeight + 20, 'Trip Distance: ' + _printMod.trip_dist + " miles"); //final row
+                    pdf.setFontType("normal");
+                    // pdf.output('datauri');
+                    page_count = page_count + 1;
+                    addTaskContents();
+                  }
+                  img.crossOrigin = "anonymous"; // This enables CORS
+                  img.src = google_1 + google_2 + google_3 + google_4 + google_5 + google_6 + "&maptype=roadmap" + google_k;
+            
+                }
+                function addTaskContents() {
+                  pdf.addPage();
+                  addHeader();
+                  /* setting up task contents*/
+                  let tasklist = _printMod.tasks;
+                  let inner_margin_A = left_margin + 20;
+            
+                  for (let i = 0; i < _printMod.tasks.length; i++) { //for each task, add a new line
+            
+                    pdf.setLineWidth(0.5);
+                    pdf.setDrawColor(15, 15, 15); //darker color for box
+                    pdf.rect(left_margin, content_margin - 3, 5, 5); // empty checkbox
+                    //X value (from left), Y value (from top), content
+                    pdf.text(left_margin+1, content_margin+1, labels[i % labels.length]); //row 1
+                    pdf.text(inner_margin_A, content_margin, tasklist[i].folder_num); //row 1
+                    pdf.text(inner_margin_A + 60, content_margin, '' + tasklist[i].folder); //row 1
+                    // pdf.text(inner_margin_A+150,content_margin,'  <Notes>'); //row 1
+            
+                    pdf.text(inner_margin_A, content_margin + 5, '' + tasklist[i].people); //row 2
+                    pdf.text(inner_margin_A, content_margin + 10, 'FP: ' + tasklist[i].fp); //row 2
+                    pdf.text(inner_margin_A + 60, content_margin + 10, 'PP: ' + tasklist[i].pp); //row 2
+                    // if(i ==0){
+                    //   pdf.text(inner_margin_A, content_margin + 15, 'Time: ' + tasklist[i].leg_time + ''); //row 3
+                    //   pdf.text(inner_margin_A + 60, content_margin + 15, 'Distance: ' + tasklist[i].leg_dist + ''); //row 3
+                    //
+                    // } else {
+                    pdf.text(inner_margin_A, content_margin + 15, 'Time: ' + tasklist[i].leg_time + ''); //row 3
+                    pdf.text(inner_margin_A + 60, content_margin + 15, 'Distance: ' + tasklist[i].leg_dist + ''); //row 3
+                    // }
+            
+                    //if we are on the last leg, add the trip total distance,
+                    if (i == _printMod.tasks.length - 1) {
+                      content_margin += 40;
+                      pdf.setFontType("bold");
+                      pdf.text(left_margin, content_margin, 'Trip Time: ' + _printMod.trip_time + " minutes"); //final row
+                      pdf.text(left_margin + 80, content_margin, 'Trip Distance: ' + _printMod.trip_dist + " miles"); //final row
+                    } else if (content_margin >= PAGE_HEIGHT - 80) {
+                      //check current page height, if we need to go to a new page do that,
+                      pdf.addPage();
+                      page_count = page_count + 1;
+                      //and add new footer
+                      addFooter()
+                      content_margin = 30;
+                    } else {
+                      //else add a new line
+                      addLine("thin", content_margin + 18);
+                      content_margin += 27;
+                    }
+            
+                  }
+                  function callback(){
+                    alert("done!");
+                  }
+                  $("#loading-overlay").fadeOut("slow");
+                  // pdf.output( type, options, callback )
+                  pdf.output('datauri', { } , callback); //end of script
+                }
+                addHeader(); //add header w footer inside function
+                addGoogleMapImage(); //we will add the map first, then add the task contents to complete the function
+              } //end of createPDF function
+
         }
 
         let _tableMod = {
@@ -1081,6 +1253,18 @@
                 $("#urlDialog").dialog("close");
                 $("#urlDialog").hide();
             },
+            copyText: function(){
+                var copyText = document.getElementById("google_url_input");
+                // console.log(copyText);
+                copyText.select();
+                document.execCommand("Copy");
+                // alert("Copied the text: " + copyText.value);
+                $("span#routeToolTip.tooltiptext").html("Copied: " + copyText.value );
+
+            },
+            resetText: function() {
+                $("span#routeToolTip.tooltiptext").html("Copy to Clipboard");
+            },
             sendMapToMobile: function(){
                 let _destinationsA = _printMod.route_stops;
                 let mobile_start = "comgooglemaps://?saddr=My+Location";
@@ -1102,7 +1286,7 @@
                   // window.location("comgooglemaps://?saddr=Austin,TX&daddr=Mason,TX+to:Elgin,TX+to:Temple,TX&views=traffic");
           
                 window.open(href);
-                // console.log(global_pdf.route_stops);
+                // console.log(_printMod.route_stops);
                 // console.log(href);
               },
             openGoogleUrlDialog: function(){
@@ -1174,13 +1358,14 @@
                 });
             },
             everythingIsLoadedYet: function(){
+                //this function was created because the google api does not load in sync everytime
+                //sometimes there is a bigger lag than other times
                 let takingTooLong = Date.now() - _initTasks.appStart;
                 if (takingTooLong > 6000){
                     window.location.reload(true);
                     return;
                 }
                 //if everything is loaded remove the overlay and proceed.
-                //this function was created because the google api does not load in sync everytime
                 if (typeof _mapMod.mapTaskListItem !== 'function') {
                     setTimeout(function() {
                         _mapMod.initialize();
