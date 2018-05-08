@@ -20,6 +20,7 @@
         */
         let _initTasks = {
             all: function(){
+                //at the start of the application, load these initialize functions
                 this.clickEvents();
                 this.keyPress();
                 this.responsive();
@@ -28,10 +29,11 @@
                 _utilityMod.initUtilityMod();
                 _tableMod.initTableMod();
                 _mapMod.initialize();
-
+                console.log("loading")
             },
             appStart: Date.now(),
             clickEvents: function(){
+                //all the UI click functions in once place
                 $("#loadTaskList").on('click', _tableMod.loadTaskList )
                 $("#smart-routing-on").on('click', _mapMod.smartRoutingOn )
                 $("#smart-routing-off").on('click', _mapMod.smartRoutingOff )
@@ -702,7 +704,7 @@
             placeAddressOnMap: function(address, popUpText, sort){
                 // function to check if it's on list of dangerous dogs
                 _dangerDogs.doggySearch(popUpText);
-                console.log(address);
+                // console.log(address);
                 //geocode and attempt to map
                 this.geocoder.geocode({
                     'address': address
@@ -1171,7 +1173,7 @@
                     $("#loading-route-overlay").remove();
                 });
             },
-            everythingIsLoadedYet(){
+            everythingIsLoadedYet: function(){
                 let takingTooLong = Date.now() - _initTasks.appStart;
                 if (takingTooLong > 6000){
                     window.location.reload(true);
