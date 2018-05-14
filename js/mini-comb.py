@@ -2,7 +2,7 @@ from jsmin import jsmin
 import shutil
 
 #filesToMinify = ['route-app','custom-script','load-task-list','print-pdf','route-to-mobile']
-filesToMinify = ['route_refactor']
+filesToMinify = ['route_refactor','custom-script']
 
 for filename in filesToMinify:
 	newName = filename+'.min.js'
@@ -16,7 +16,7 @@ for filename in filesToMinify:
 
 
 #minifiedJs = ['route-app.min.js','custom-script.min.js','load-task-list.min.js','print-pdf.min.js','route-to-mobile.min.js']
-minifiedJs = ['route_refactor.min.js']
+minifiedJs = ['route_refactor.min.js', 'custom-script.min.js']
 
 #with open('acd_bundle.min.js','wb') as wfd:
 with open('acd_bundle_v2.min.js','wb') as wfd:
