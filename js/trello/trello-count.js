@@ -35,7 +35,7 @@ $(document).ready(function(){
             var rowCount = elem.count;
             totalCount = totalCount + Number(rowCount);
             var elemName = elem.name;
-            $("#card-list").append('<li class="collection-item"><div>'+(idx+1)+". "+elemName+'<span class="new badge" data-badge-caption="rows">'+rowCount+'</span></div></li>');
+            $("#card-list").append('<li class="collection-item"><div>'+(idx+1)+". "+elemName+'<span class="new badge" data-badge-caption="cards">'+rowCount+'</span></div></li>');
         });
 
         $("#complete-card-count").html(totalCount);
