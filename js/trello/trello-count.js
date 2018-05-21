@@ -62,7 +62,7 @@ $(document).ready(function(){
             url: listUrl,
             type: "GET"
         }).done(function(listData) {
-            let { lists } = listData;
+            let lists = listData["lists"];
 
             $.ajax({
                 url: myUrl,
