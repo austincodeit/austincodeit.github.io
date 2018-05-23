@@ -3,26 +3,25 @@ $(document).ready(function(){
 
 
     var print_results = function(cardData, lists){
+        let finalOutput = [];
         // console.log(output);
         var cardList = cardData["cards"];
         //groupby list ID
         var newList = _.groupBy(cardList, 'idList');
         console.log(newList);
-        var cardKeys = Object.keys(newList) //the name of each spreadsheet
-        let finalOutput = [];
-        //loop through the array of keys
-        cardKeys.map(function(_card_key, idx){
-            console.log(_card_key, idx);
-            //get arrayPosition of ID match
-            let lookUpId = 0;
-            let replacementName = "";
+        //loop through the list grouped by ID
+        _.each(newList, function(card, idx){
+            //group by each list by status (closed or NOT)
+            let openTickets = _.countBy(card, 'closed');
+            let closedCount = openTickets.true ? openTickets.true : 0
             lists.forEach(function(elem){
-                if (_card_key === elem.id){
-                   finalOutput.push({name: elem.name, count: newList[_card_key].length })
+                // console.log(elem);
+                if (idx === elem.id){
+                   finalOutput.push({name: elem.name, count: newList[idx].length, open: openTickets.false, closed: closedCount })
                 }
             });
-            return replacementName;
         })
+        
         console.log(finalOutput)
         
         var listCount = finalOutput.length; //get number of lsits
@@ -30,15 +29,24 @@ $(document).ready(function(){
         // console.log(sheetNames);
         // console.log(sheetCount);
         //first lets get the general summary and also filter out unusable sheets
-        var totalCount = 0;
+        var totalCount = 0, openCount = 0, closedCount = 0;
+        console.log(finalOutput)
         _.each(finalOutput, function(elem, idx){
-            var rowCount = elem.count;
-            totalCount = totalCount + Number(rowCount);
+            console.log(elem)
+            totalCount = totalCount + Number(elem["count"]);
+            openCount = openCount + Number(elem["open"]);
+            closedCount = closedCount + Number(elem["closed"]);
             var elemName = elem.name;
-            $("#card-list").append('<li class="collection-item"><div>'+(idx+1)+". "+elemName+'<span class="new badge" data-badge-caption="cards">'+rowCount+'</span></div></li>');
+            $("#card-list").append('<li class="collection-item"><div>'+(idx+1)+". "+elemName+
+            '<span class="new badge blue" data-badge-caption="closed">'+elem["closed"]+'</span>'+
+            '<span class="new badge red" data-badge-caption="open">'+elem["open"]+'</span>'+
+            '<span class="new badge" data-badge-caption="total">'+elem["count"]+'</span>'+
+            '</div></li>');
         });
 
         $("#complete-card-count").html(totalCount);
+        $("#open-card-count").html(openCount);
+        $("#closed-card-count").html(closedCount);
         
         // $("#loading-overlay").fadeOut();
         // console.log('done')

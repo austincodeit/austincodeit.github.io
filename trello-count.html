@@ -30,6 +30,19 @@
     #err-display{
         display: none
     }
+    
+    #complete-card-count{
+        color: #26a69a;
+        font-weight: 700
+    }
+    #open-card-count{
+        color: red;
+        font-weight: 700
+    }
+    #closed-card-count{
+        color: blue;
+        font-weight: 700
+    }
 </style>
   </head>
       
@@ -52,9 +65,13 @@
                                 <li class="collection-header"><h5>Total Lists: <span id="spreadsheet-count"></span></h5></li>
                             </ul>
                         </div>
-                        <h6>Total Cards: 
-                            <span id="complete-card-count"></span>
-                        </h6>
+                        <h5>Total Cards: 
+                            <span id="complete-card-count"></span> |
+                            Open Cards:
+                            <span id="open-card-count"></span> |
+                            Closed Cards:
+                            <span id="closed-card-count"></span>
+                        </h5>
     
                     </div>
                 </section>   
