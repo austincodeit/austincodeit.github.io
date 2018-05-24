@@ -20,67 +20,79 @@
         padding: 18px;
         min-height: 180px;
     }
-
+    .row {
+        max-width: 500px;
+    }
     .mid{
         margin: 25px 0 25px 0;
     }
-    .compare-results{
-        display: none
-    }
-    #err-display{
+    #err-display, #loading-display, .compare-results, #reset-section{
         display: none
     }
     
     #complete-card-count{
-        color: #26a69a;
-        font-weight: 700
+        color: #00897b;
+        font-weight: 700;
     }
+    span.badge.red{
+        font-size: 1.1rem;
+    } 
     #open-card-count{
-        color: red;
+        color: #e53935;
         font-weight: 700
     }
     #closed-card-count{
-        color: blue;
+        color: #1e88e5;
         font-weight: 700
+    }
+    .collection{
+        max-width: 500px;
+    }
+    .summary-counts{
+        float: right;
     }
 </style>
   </head>
       
     <body>
         <div class="container">
-            <section class="header" class="row">
+            <section class="row">
 
                 <h2 class="project-name">Count Trello Cards in ACD Kanban Board</h2>
                 <h6>This tool will count the total number of cards in ACD's Board</h6>
+                <h6><a href="https://trello.com/b/ijWiW7ag/acd-kanban-board" target="_blank">Go to Trello Board</a></h6>
 
             </section>
             <section class="row">
                     <div id="err-display">
                         <h5 class="center-align card-panel red lighten-2">...something went wrong...</h5>
                     </div>
+                    <div id="loading-display">
+                        <h5 class="center-align card-panel teal lighten-2">...loading...</h5>
+                    </div>
                     <div class="row compare-results">
-                        <h4>Review Results</h4>
+                        <h5>Results as of <span id="get-date"></span></h5>
                         <div >
                             <ul id="card-list" class="collection with-header">
-                                <li class="collection-header"><h5>Total Lists: <span id="spreadsheet-count"></span></h5></li>
+                                <li class="collection-header"><h5>Active Stages: <span id="list-count"></span></h5></li>
                             </ul>
                         </div>
-                        <h5>Total Cards: 
-                            <span id="complete-card-count"></span> |
-                            Open Cards:
-                            <span id="open-card-count"></span> |
-                            Closed Cards:
-                            <span id="closed-card-count"></span>
+                        
+                        <div >
+                            <ul class="collection with-header">
+                                <li class="collection-item"><h5>Archived: <span id="closed-card-count" class="summary-counts"></span></h5></li>
+                                <li class="collection-item"><h5>Open: <span id="open-card-count" class="summary-counts"></span></h5></li>
+                                <li class="collection-item"><h5>Complete: <span id="complete-card-count" class="summary-counts"></span></h5></li>
                         </h5>
     
                     </div>
                 </section>   
             <section class="row">
-                <h6><a href="https://trello.com/b/ijWiW7ag/acd-kanban-board" target="_blank">Link to Trello Board</a></h6>
-                <h4>Add Credentials </h4>
-                <div class="col s12 m5">
+                
+                <div id="start-section">
+                    <h4>Add Credentials </h4>
                     <div class="card blue-grey darken-1">
-                        <div class="card-content white-text">
+                        <div class="card-content white-text center-align">
                             <!-- <div class="input-field col s12">
                                 <input placeholder="" id="_my_key" type="text" class="">
                                 <label for="_my_key">Secret Key</label>
@@ -92,10 +104,18 @@
                             </div>
                             
                             <div class="input-field col s12">
-                                <div class="btn" id="startCountingBoards"> Done </div>
+                                <div class="btn" id="startCountingBoards"> Count </div>
                             </div>
 
                         </div>
+                    </div>
+                </div>
+                <div id="reset-section">
+                    <div class="card blue-grey lighten-5">
+                            <div class="card-content valign-wrapper center-align">
+                        <div class="input-field col s12">
+                            <div class="btn red lighten-1" id="resetApp"> Start Over </div>
+                        </div></div>
                     </div>
                 </div>
             </section>   
