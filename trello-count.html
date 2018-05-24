@@ -56,7 +56,6 @@
     }
 </style>
   </head>
-      
     <body>
         <div class="container">
             <section class="row">
@@ -67,35 +66,37 @@
 
             </section>
             <section class="row">
-                    <div id="err-display">
-                        <h5 class="center-align card-panel red lighten-2">...something went wrong...</h5>
+                <div id="err-display">
+                    <h5 class="center-align card-panel red lighten-2">...something went wrong...</h5>
+                </div>
+                <div id="loading-display">
+                    <h5 class="center-align card-panel teal lighten-2">...loading...</h5>
+                </div>
+                <div class="row compare-results">
+                    <h5>Results as of <span id="get-date"></span></h5>
+                    <div >
+                        <ul id="card-list" class="collection with-header">
+                            <li class="collection-header"><h5>Active Stages: <span id="list-count"></span></h5></li>
+                        </ul>
                     </div>
-                    <div id="loading-display">
-                        <h5 class="center-align card-panel teal lighten-2">...loading...</h5>
-                    </div>
-                    <div class="row compare-results">
-                        <h5>Results as of <span id="get-date"></span></h5>
-                        <div >
-                            <ul id="card-list" class="collection with-header">
-                                <li class="collection-header"><h5>Active Stages: <span id="list-count"></span></h5></li>
-                            </ul>
-                        </div>
-                        
-                        <div id="summary-list">
-                            <ul class="collection with-header">
-                                <li class="collection-item">Archived: <span id="closed-card-count" class="summary-counts"></span>
-                                </li>
-                                <li class="collection-item">Open: <span id="open-card-count" class="summary-counts"></span>
-                                </li>
-                                <li class="collection-item">Complete: <span id="complete-card-count" class="summary-counts"></span>
-                                </li>
-                            </ul>
-                        </h5>
-    
-                    </div>
-                </section>   
+                    
+                    <div id="summary-list">
+                        <ul class="collection with-header">
+                            <li class="collection-item">Archived: <span id="closed-card-count" class="summary-counts"></span>
+                            </li>
+                            <li class="collection-item">Open: <span id="open-card-count" class="summary-counts"></span>
+                            </li>
+                            <li class="collection-item">Complete: <span id="complete-card-count" class="summary-counts"></span>
+                            </li>
+                        </ul>
+                    </h5>
+
+                </div>
+                <div id="reset-section" class="valign-wrapper center-align">
+                    <div class="btn teal lighten-1" id="resetApp"> Refresh Count </div>
+                </div>
+            </section>   
             <section class="row">
-                
                 <div id="start-section">
                     <h4>Add Credentials </h4>
                     <div class="card blue-grey darken-1">
@@ -114,13 +115,6 @@
                                 <div class="btn" id="startCountingBoards"> Count </div>
                             </div>
 
-                        </div>
-                    </div>
-                </div>
-                <div id="reset-section">
-                    <div class="card-content valign-wrapper center-align">
-                        <div class="input-field col s12">
-                            <div class="btn red lighten-1" id="resetApp"> Refresh Count </div>
                         </div>
                     </div>
                 </div>
