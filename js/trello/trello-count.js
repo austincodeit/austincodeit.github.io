@@ -55,6 +55,9 @@ $(document).ready(function(){
         if (reset){
             finalOutput = [];
             $("#card-list .collection-item").remove()
+            setTimeout(function(){
+                $("#startCountingBoards").trigger('click')
+            }, 250)
         }
         // $("#loading-overlay").fadeOut();
         // console.log('done')
@@ -104,8 +107,8 @@ $(document).ready(function(){
         
         $("#reset-section").hide();
         $("#start-section").show();
-        print_results([], [], true);
         $(".compare-results").hide()
+        print_results([], [], true);
     })
 
     var updateLocalStorage = function(){
