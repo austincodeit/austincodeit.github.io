@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
     <meta charset="UTF-8">
-    <title>Count Trello Cards</title>
+    <title>ACD Trello Card Count</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
     <!-- Compiled and minified CSS -->
@@ -22,6 +22,8 @@
     }
     .row {
         max-width: 500px;
+        margin-top: 10px;
+        margin-bottom: 10px;
     }
     .mid{
         margin: 25px 0 25px 0;
@@ -32,17 +34,18 @@
     
     #complete-card-count{
         color: #00897b;
-        font-weight: 700;
     }
     span.badge.red{
-        font-size: 1.1rem;
+        font-size: 1rem;
     } 
     #open-card-count{
         color: #e53935;
-        font-weight: 700
     }
     #closed-card-count{
         color: #1e88e5;
+    }
+    #summary-list{
+        font-size: 1.15rem;
         font-weight: 700
     }
     .collection{
@@ -58,8 +61,8 @@
         <div class="container">
             <section class="row">
 
-                <h2 class="project-name">Count Trello Cards in ACD Kanban Board</h2>
-                <h6>This tool will count the total number of cards in ACD's Board</h6>
+                <h3 class="project-name">ACD Trello Card Count</h3>
+                <h6>This tool will count the total number of cards in ACD's Trello Board.</h6>
                 <h6><a href="https://trello.com/b/ijWiW7ag/acd-kanban-board" target="_blank">Go to Trello Board</a></h6>
 
             </section>
@@ -78,11 +81,15 @@
                             </ul>
                         </div>
                         
-                        <div >
+                        <div id="summary-list">
                             <ul class="collection with-header">
-                                <li class="collection-item"><h5>Archived: <span id="closed-card-count" class="summary-counts"></span></h5></li>
-                                <li class="collection-item"><h5>Open: <span id="open-card-count" class="summary-counts"></span></h5></li>
-                                <li class="collection-item"><h5>Complete: <span id="complete-card-count" class="summary-counts"></span></h5></li>
+                                <li class="collection-item">Archived: <span id="closed-card-count" class="summary-counts"></span>
+                                </li>
+                                <li class="collection-item">Open: <span id="open-card-count" class="summary-counts"></span>
+                                </li>
+                                <li class="collection-item">Complete: <span id="complete-card-count" class="summary-counts"></span>
+                                </li>
+                            </ul>
                         </h5>
     
                     </div>
@@ -111,11 +118,10 @@
                     </div>
                 </div>
                 <div id="reset-section">
-                    <div class="card blue-grey lighten-5">
-                            <div class="card-content valign-wrapper center-align">
+                    <div class="card-content valign-wrapper center-align">
                         <div class="input-field col s12">
                             <div class="btn red lighten-1" id="resetApp"> Refresh Count </div>
-                        </div></div>
+                        </div>
                     </div>
                 </div>
             </section>   
