@@ -68,12 +68,12 @@ $(document).ready(function(){
     /** onload settings **/
     $(".compare-results").hide()
     $("#err-display").hide();
-    $("#loading-display").hide();
+    $("#loading-display").fadeOut();
     $("#reset-section").hide();
     
     
     $("#startCountingBoards").on('click', function(){
-        $("#loading-display").show();
+        $("#loading-display").fadeIn();
         $("#start-section").hide();
 
         let keyInput = $("#_my_key").val();

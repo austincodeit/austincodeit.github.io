@@ -69,11 +69,14 @@
                 <div id="err-display">
                     <h5 class="center-align card-panel red lighten-2">...something went wrong...</h5>
                 </div>
-                <div id="loading-display">
-                    <h5 class="center-align card-panel teal lighten-2">...loading...</h5>
+                <div id="loading-display" class="card teal lighten-5" style="padding:20px 0px">
+                    <h5 class="center-align">Loading</h5>
+                    <div class="progress">
+                        <div class="indeterminate"></div>
+                    </div>
                 </div>
                 <div class="row compare-results">
-                    <h5>Results as of <span id="get-date"></span></h5>
+                    <h6>Results as of <span id="get-date"></span></h6>
                     <div >
                         <ul id="card-list" class="collection with-header">
                             <li class="collection-header"><h5>Active Stages: <span id="list-count"></span></h5></li>
