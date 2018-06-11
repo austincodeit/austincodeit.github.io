@@ -292,6 +292,29 @@
             <button type="button" class="btn btn-default" id="close-url-modal">Close</button>
         </div>
     </div>
+    <div id="dangerHouseDialog" title="Use Caution">
+        <p class="text-danger">This address has been previously identified as one to proceed to with caution.</p>
+        <table class="table table-condensed">
+            <tr>
+                <th style="width: 25%">ADDRESS:</th>
+                <td>
+                    <span id="house-address"></span>
+                </td>
+            </tr>
+            <tr>
+                <th style="width: 25%">SOURCE:</th>
+                <td>
+                    <span id="house-source"></span>
+                </td>
+            </tr>
+        </table>
+        <p>Check AMANDA for any important notes and/or references to this property.</p>
+        <p>Be smart. Be safe.</p>
+        <!-- Indicates caution should be taken with this action -->
+        <div style="text-align: center; margin: 10px">
+            <button type="button" class="btn btn-default" id="close-danger-house-modal">Close</button>
+        </div>
+    </div>
     <!-- js files -->
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbnhwYIXT-MBTVIaDxS9kzbqIOmoeqcRU" type="text/javascript"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>

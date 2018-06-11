@@ -301,6 +301,11 @@ button#getGoogleUrl[disabled]{
 #urlDialog button:focus{
   outline: none;
 }
+
+#urlDialog, #dogDialog, #dangerHouseDialog{
+
+}
+
 /* animation */
 @-webkit-keyframes spin {
   0% {

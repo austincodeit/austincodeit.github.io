@@ -8,6 +8,7 @@
  * _mobileMod - functions, variables used for getting route details and sending a final link to your phone
  * _utilityMod - functions, variables that are helper tasks
  * _dangerDogs - functions, variables related to the search for dangerous dogs
+ * _dangerHouses - functions, variables related to the search for dangerous houses/properties
  */
 
 (function($, _) {
@@ -69,6 +70,8 @@
                 $("#copy-url-from-modal").mouseout(_mobileMod.resetText );
                 //close dangerous dogs modal                  
                 $("#close-caution-modal").on('click', _dangerDogs.closeModal );
+                //close dangerous houses modal                  
+                $("#close-danger-house-modal").on('click', _dangerHouses.closeModal );
                 //PDF function that "kind of" works and only on Firefox
                 $("#createPDF").on('click', _printMod.createFinalPDF );
                    
@@ -687,6 +690,7 @@
             placeAddressOnMap: function(address, popUpText, sort){
                 // function to check if it's on list of dangerous dogs
                 _dangerDogs.doggySearch(popUpText);
+                _dangerHouses.dangerousHouseArray(popUpText);
                 // console.log(address);
                 //geocode and attempt to map
                 this.geocoder.geocode({
@@ -1342,6 +1346,7 @@
                 this.everythingIsLoadedYet();
                 $("#dogDialog").hide();                
                 $("#urlDialog").hide(); //need to hide urlDialog modal at start of application load  
+                $("#dangerHouseDialog").hide(); //need to hide urlDialog modal at start of application load  
             },
             beginLoadAnimation: function(){
                 $("#loading-overlay").fadeIn("slow"); //overlay to pause user interaction
@@ -1402,6 +1407,1313 @@
                 return ( string ? string : '' )
             }       
         }
+
+        let _dangerHouses = {
+            openModal: function(){
+                $("#dangerHouseDialog").show();
+            },
+            closeModal: function(){
+                $("#dangerHouseDialog").dialog("close");
+                $("#dangerHouseDialog").hide();
+            },
+            dangerousHouseSearch: function(input){
+                //see if address matches any part of the current list:
+                // loop through dangerousHouseArray
+                let foundAddress = this.dangerousHouseArray.filter( function(item, idx) {
+                    if(input.toUpperCase().indexOf(item.ADDRESS) >= 0){
+                        // console.log('found', idx)
+                        return item;
+                    };
+                });
+                
+                // if address is found in array
+                if (foundAddress.length > 0){
+                    $("#dangerHouseDialog").show();
+                    //get array position and alert
+                    $("#house-address").html(foundAddress[0]["ADDRESS"]);
+                    $("#house-source").html(foundAddress[0]["SOURCE"]);
+                    //CAUTION: FOUND IN DANGEROUS HOUSES ARRAY
+                    $( "#dangerHouseDialog" ).dialog({
+                        width: 500,
+                        close: function( event, ui ) {
+                            $("#house-address").html("");
+                            $("#house-source").html("");
+                            $("#dangerHouseDialog").hide();
+                        }
+                    });
+                }
+            },
+            dangerousHouseArray: [    
+                {
+                    "ADDRESS":'1414 SALEM MEADOW',
+                    "SOURCE": 'AUSTIN CODE'
+                },
+                {
+                    "ADDRESS": "5503 AMESWOOD",
+                    "SOURCE": "Austin Regional Intelligence Center"
+                },
+                {
+                    "ADDRESS": "1515 GROVE BLVD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "4801 S CONGRESS AVE",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "211 E 3RD ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "7800 E RIVERSIDE DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "505 W 22ND ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "2215 RIO GRANDE ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "911 W 21ST ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "919 E KOENIG LN",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "907 CONGRESS AVE",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "909 CONGRESS AVE",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "911 CONGRESS AVE",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "406 WALLIS DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "3101 GOVALLE AVE",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "11200 SLAUGHTER CREEK DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "6301 E STASSNEY LN",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "14928 ARROWHEAD DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "14709 REYNERO LN",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "11200 LAKELINE BLVD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "9430 RESEARCH BLVD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "11127 CIRCLE DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "11319 PARSONS RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "3403 E 12TH ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "5715 MESA DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "1950 WEBBERVILLE RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "2300 W NORTH LOOP BLVD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "8510 SLANT OAK DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "18500 N SH 130",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "1074 VERBENA DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "15551 MISS ADRIENNES PATH",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "1000 W RUNDBERG LN",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "6500 ST STEPHENS DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "12521 TWIN CREEKS RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "7600 COGNAC CV",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "5404 PALO BLANCO LN",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "11575 JOLLYVILLE RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "309 E 11TH ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "1805 JOJOBA DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "110 SAN ANTONIO ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "3309 TAYLOR FALLS DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "3708 S 2ND ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "11600 BARRINGTON WAY",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "4836 E SH 71",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "617 W CRESTLAND DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "11518 SANDY LOAM TRL",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "1002 BYERS LN",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "7907 FM 969 RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "3500 CARLA DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "8400 BEECH DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "5800 TECHNI CENTER DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "12443 TECH RIDGE BLVD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "2404 SHAPARD LN",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "6500 N MOPAC EXPY",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "804 LAS CIMAS PKWY",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "5800 WELLINGTON DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "11900 HOBBY HORSE CT",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "8702 PINEY POINT DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "14607 EVANS OAKS RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "3819 PRESIDENTIAL BLVD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "1111 N WESTON LN",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "8308 GRAYLEDGE DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "4314 GILLIS ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "7706 WILLIAMSON CREEK DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "2011 KENWOOD AVE",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "1700 KRIZAN AVE",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "2510 COATBRIDGE DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "1604 LOHMANS CROSSING RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "6204 HANEY DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "7701 WYNNE LN",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "9506 KEMPLER DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "8705 HIGH VALLEY RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "10910 N FM 620 RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "11313 JAMES HALLER DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "4501 ASHLEY WAY",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "705 HUERTA ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "8311 BURLESON MANOR RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "5710 HUDSON ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "3708 LOST OASIS HOLW",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "4505 FIFNELLA WAY",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "3212 RED RIVER ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "6800 MC NEIL DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "2200 CINDY LN",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "9826 NORTH LAKE CREEK PKWY",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "1401 ST EDWARDS DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "2903 CROWNSPOINT DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "8608 KEYNES LN",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "1604 CATTLE TRL",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "4005 BISCAY DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "16200 DECKER LAKE RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "6813 GREAT NORTHERN BLVD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "6815 GREAT NORTHERN BLVD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "12401 LOS INDIOS TRL",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "7318 LAKE CHARLES DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "9219 ANDERSON MILL RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "1026 CLAYTON LN",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "16207 ELM DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "3700 NORTH HILLS DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "701 W LONGSPUR BLVD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "8813 MILTON LEASE DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "2304 TOULOUSE DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "3304 WEBBERVILLE RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "9106 SHEPARD DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "3101 SHORELINE DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "11700 EVERGREEN DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "1300 CROSSING PL",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "9500 MC NEIL DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "505 W ANDERSON LN",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "8329 N MOPAC EXPY",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "4801 PLAZA ON THE LAKE",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "6808 S IH 35",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "3600 PRESIDENTIAL BLVD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "12405 TURTLEBACK LN",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "7505 CRESTON LN",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "11305 MAIDENSTONE DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "17301 FM 1431 RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "2306 INVERRARY CIR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "13201 PERCONTE DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "1124 RUTLAND DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "16414 KNOTTINGHAM DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "4605 KITTY AVE",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "8704 BLUEGRASS DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "3801 N CAPITAL OF TEXAS HWY",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "10913 THICKET TRL",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "11011 DOMAIN DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "12151 N IH 35",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "9301 HOG EYE RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "14000 THE LAKES BLVD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "1710 FORT VIEW RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "1506 MATTHEWS LN",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "7215 MAVERICK CT",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "10605 MAN O WAR AVE",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "0 CITATION AVE",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "600 W 26TH ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "2104 E ANDERSON LN",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "1500 RED RIVER ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "810 SWEETWATER RIVER DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "10417 CRUMLEY RANCH RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "9329 NORTHGATE BLVD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "20621 POPPY HILLS TRL",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "5908 BUNBURY CT",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "9004 WILDRIDGE DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "3154 E SH 71 EB",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "3205 LARRY LN",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "11700 N MOPAC",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "11502 MURCHISON ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "8600 N FM 620 RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "2108 KIPPLING DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "10002 MANDEVILLE CIR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "6906 BREEZY HILL DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "4004 VICTORY DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "4009 VICTORY DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "4105 VICTORY DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "2811 BOWMAN AVE",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "9844 QUAIL BLVD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "13409 SADDLEBROOK TRL",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "2405 SANTA ROSA ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "744 W WILLIAM CANNON DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "4101 JAMES CASEY ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "11701 STONEHOLLOW DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "201 E 21ST ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "203 E 21ST ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "215 E 24TH ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "304 E 24TH ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "4300 ENDCLIFFE DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "12331 RIATA TRACE PKWY",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "12357 RIATA TRACE PKWY",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "10912 WORN SOLE DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "2112 E WILLIAM CANNON DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "18611 FM 1431 RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "5007 LYNNWOOD ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "4800 WEST GATE BLVD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "4605 CANDLETREE LN",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "2909 HEIDELBERG CV",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "14745 MERRILLTOWN DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "11704 STERLINGHILL DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "8801 LA CRESADA DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "1002 MILFORD WAY",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "1006 LOTT AVE",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "9002 FAIRWAY HILL DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "4434 FRONTIER TRL",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "5002 BLUE SPRUCE CIR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "6523 HIRIDGE HOLLOW DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "8107 S 1ST ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "10049 PLANTERS WOODS DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "12001 DESSAU RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "11417 BOOTHILL DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "12209 BRANSTON DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "1500 E PARMER LN",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "13700 FM 969 RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "1412 W BRAKER LN",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "19101 TERRACE MOUNTAIN DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "13004 MOORE RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "14104 LAZYRIDGE DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "14110 THEODORE ROOSEVELT ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "6611 HERGOTZ LN",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "1936 OAK VISTA DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "1414 SALEM MEADOW CIR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "5712 PINON VISTA DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "4702 PONY CHASE",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "301 CHISHOLM TRAIL RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "1701 SHADOWVIEW DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "1221 ANISE DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "6407 SPRINGDALE RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "8804 AIRLINE TER",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "11402 RICHLAND RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "705 LANDING LN",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "5526 S CONGRESS AVE",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "10550 W PARMER LN",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "2610 LAKE AUSTIN BLVD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "11330 N LAMAR BLVD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "13785 N US 183 HWY",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "3201 WINDSOR RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "11725 N FM 620 RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "1047 ROSEMONT ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "6121 PONCA ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "10611 MC MILLIAN DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "901 S CAPITAL OF TEXAS",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "14028 N US 183 HWY",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "8405 OLD BEE CAVES RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "2519 MONTOPOLIS DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "4600 SHERWYN DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "1300 GREENWOOD AVE",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "2323 W WELLS BRANCH PKWY",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "1601 MONTOPOLIS DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "4024 WALNUT CLAY DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "3154 E SH 71",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "6915 TEN OAKS CIR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "1103 SAHARA AVE",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "3001 ESPERANZA",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "2850 S LAKELINE BLVD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "13659 N US 183 HWY",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "2000 BURTON DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "2203 W 35TH ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "7913 LEE HILL DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "412 E WILLIAM CANNON DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "14233 THE LAKES BLVD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "2302 DURWOOD ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "37 LOST MEADOW TRL",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "5904 RICKEY DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "6503 MOONGLOW DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "1004 SUNFLOWER TRL",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "6311 EL MIRANDO ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "6401 RIALTO BLVD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "5802 FENCE ROW",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "14502 SANDIFER ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "8000 LAWNDALE DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "304 THISTLEWOOD DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "10000 BARRINGTON CV",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "2808 LOCKE LN",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "4708 ENCHANTED LN",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "5700 MEADOW CREST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "8321 BURLESON MANOR RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "9100 INGRID DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "7202 CREEKSIDE DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "3201 CALEB DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "2201 LEON ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "3815 GUADALUPE ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "6324 SHADOW BND",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "13005 HEINEMANN DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "5502 PONCIANA DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "915 COLORADO ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "909 COLORADO ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "4000 AVENUE A",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "9212 DECKER LN",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "900 E WHITESTONE BLVD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "7201 BLESSING AVE",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "11721 DOMAIN BLVD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "7221 ELLINGTON CIR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "4422 MAGIN MEADOW DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "2500 BURLESON RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "10700 SPIDERLING CT",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "10525 POINT VIEW DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "9604 PETITE CV II",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "1402 FOXWOOD CV",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "6420 WAREHAM LN",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "377 DRY CREEK RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "11215 RESEARCH BLVD ",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "2518 MONTOPOLIS DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "4401 SACRED ARROW DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "10701 S 1ST ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "108 COMAL ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "8305 HORNET DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "9133 NORTHGATE BLVD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "2503 WILSON ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "611 WEST LYNN ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "501 E OLTORF ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "10712 CRESTVIEW DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "8509 FM 969 RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "9437 CIRCLE DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "11814 NAVASOTA ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "910 E WHITESTONE BLVD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "13618 MERSEYSIDE DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "11716 ROTHERHAM DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "2304 SANTA RITA ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "8010 TUSCARORA TRL",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "1100 REINLI ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "810 E SLAUGHTER LN",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "1735 RUTLAND DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "13706 CROOKED CREEK DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "6601 SHINER ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "7403 SOUTHGATE",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "13004 BEN MILAM DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "13704 CAMBOURNE DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "11233 SLAUGHTER CREEK DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "1607 AZORES DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "3543 GREYSTONE DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "915 VARGAS RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "11503 PARSONS RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "1406 REMMINGTON RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "11919 MANCHACA RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "6109 CHICTORA CV",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "4811 QUICKSILVER BLVD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "3210 PLANTATION RD",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "7807 SUMMERVALE DR",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "4110 SOJOURNER ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                },
+                {
+                    "ADDRESS": "2101 RIO GRANDE ST",
+                    "SOURCE": "APD, AFD, EMS - Caution Notes"
+                }
+            ]
+        };
 
         let _dangerDogs = {
             openModal: function(){
