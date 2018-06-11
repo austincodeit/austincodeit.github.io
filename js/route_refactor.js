@@ -690,7 +690,7 @@
             placeAddressOnMap: function(address, popUpText, sort){
                 // function to check if it's on list of dangerous dogs
                 _dangerDogs.doggySearch(popUpText);
-                _dangerHouses.dangerousHouseArray(popUpText);
+                _dangerHouses.dangerousHouseSearch(popUpText);
                 // console.log(address);
                 //geocode and attempt to map
                 this.geocoder.geocode({
