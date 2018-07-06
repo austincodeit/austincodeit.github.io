@@ -1,6 +1,6 @@
 
 $(document).ready(function(){
-
+    var excel_results = [];
     var print_results = function(cardData, lists, reset){
         updateLocalStorage();
         displayDate();
@@ -26,8 +26,8 @@ $(document).ready(function(){
         
         // console.log(finalOutput)
         
-        var listCount = finalOutput.length; //get number of lsits
-        $("#list-count").html(listCount-1); //minus 1 because we won't count complete column
+        var activeStageCount = finalOutput.length-1; //get number of lsits
+        $("#list-count").html(activeStageCount); //minus 1 because we won't count complete column as an "ACTIVE" stage
         // console.log(sheetNames);
         // console.log(sheetCount);
         //first lets get the general summary and also filter out unusable sheets
@@ -39,18 +39,30 @@ $(document).ready(function(){
             var elemName = elem.name;
             if (elemName !== "Complete"){
                 openCount = openCount + Number(elem["open"]);
+                //write to DOM
                 $("#card-list").append('<li class="collection-item"><div>'+(idx+1)+". "+elemName+
                 '<span class="new badge red darken-1" data-badge-caption="open">'+elem["open"]+'</span>' +
                 '</div></li>');
+                //write to EXCEL object
+                excel_results.push( {"Stage": elemName, "Count": elem["open"]} )
             } else {
                 completeCount = completeCount + Number(elem["open"]);
 
             }
         });
 
+        //continue writing to EXCEL object
+        excel_results.push( {"Stage": "  ", "Count": "  " } )
+        excel_results.push( {"Stage": "Active Stages","Count": activeStageCount } )
+        excel_results.push( {"Stage": "  ", "Count": "  " } )     
+        //continue writing to DOM   
         $("#complete-card-count").html(completeCount);
         $("#open-card-count").html(openCount);
         $("#closed-card-count").html(archivedCount);
+        //continue writing to EXCEL object
+        excel_results.push( {"Stage": "Total Archived", "Count": archivedCount } )
+        excel_results.push( {"Stage": "Total Open", "Count": openCount } )
+        excel_results.push( {"Stage": "Total Completed", "Count": completeCount } )
         
         if (reset){
             finalOutput = [];
@@ -103,6 +115,7 @@ $(document).ready(function(){
         });
     });
     
+    /* Reset application and start over */
     $("#resetApp").on('click', function(){
         
         $("#reset-section").hide();
@@ -111,18 +124,48 @@ $(document).ready(function(){
         print_results([], [], true);
     })
 
+    /* working with localStorage  */
     var updateLocalStorage = function(){
         localStorage.setItem("token",  $("#_my_token").val() );
     }
+    //on load, add used token
+    if( localStorage.getItem("token") ){
+        $("#_my_token").val( localStorage.getItem("token") )
+    }
+
     var displayDate = function(){
         var dateObj = new Date(Date.now());
         var timeString = dateObj.toLocaleTimeString()
         var dateString = dateObj.toLocaleDateString()
         $("#get-date").html(dateString+" @ "+timeString);
     }
-    
-    //on load, add used token
-    if( localStorage.getItem("token") ){
-        $("#_my_token").val( localStorage.getItem("token") )
+    var getDateString = function(){
+        var dateObj = new Date(Date.now());
+        var dateString = dateObj.toLocaleDateString()
+        // console.log(dateString.replace("/","-"))
+        return dateString.replace(/\//g,"-");
     }
+    var getTimeString = function(){
+        var dateObj = new Date(Date.now());
+        var timeString = dateObj.getTime();
+        // console.log(timeString )
+        return timeString
+    }
+    console.log(getTimeString());
+    
+    /* section for writing data to excel for export */
+    var X = XLSX;
+    $("#printListToExcel").on('click', function(){
+
+        /* make the worksheet */
+        var ws = XLSX.utils.json_to_sheet(excel_results);
+        
+        /* add to workbook */
+        var wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Trello_Counts_"+getDateString()+"");
+
+        /* generate an XLSX file */
+        XLSX.writeFile(wb, "Trello_Counts_"+getTimeString()+".xlsx");
+    })
+
 });
