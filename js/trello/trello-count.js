@@ -3,7 +3,8 @@ $(document).ready(function(){
     var excel_results = [];
     var print_results = function(cardData, lists, reset){
         updateLocalStorage();
-        displayDate();
+        //display the date
+        $("#get-date").html (getDisplayDate() );
         
         let finalOutput = [];
         // console.log(output);
@@ -29,7 +30,7 @@ $(document).ready(function(){
         var activeStageCount = finalOutput.length-1; //get number of lsits
         $("#list-count").html(activeStageCount); //minus 1 because we won't count complete column as an "ACTIVE" stage
         // console.log(sheetNames);
-        // console.log(sheetCount);
+        var projKey = "Active Stages: "+activeStageCount;
         //first lets get the general summary and also filter out unusable sheets
         var completeCount = 0, openCount = 0, archivedCount = 0;
         // console.log(finalOutput)
@@ -44,7 +45,7 @@ $(document).ready(function(){
                 '<span class="new badge red darken-1" data-badge-caption="open">'+elem["open"]+'</span>' +
                 '</div></li>');
                 //write to EXCEL object
-                excel_results.push( {"Stage": elemName, "Count": elem["open"]} )
+                excel_results.push( {[projKey]: (idx+1)+". "+elemName, "Count": elem["open"]} )
             } else {
                 completeCount = completeCount + Number(elem["open"]);
 
@@ -52,17 +53,16 @@ $(document).ready(function(){
         });
 
         //continue writing to EXCEL object
-        excel_results.push( {"Stage": "  ", "Count": "  " } )
-        excel_results.push( {"Stage": "Active Stages","Count": activeStageCount } )
-        excel_results.push( {"Stage": "  ", "Count": "  " } )     
+        excel_results.push( {[projKey]: "  ", "Count": "  " } )
         //continue writing to DOM   
         $("#complete-card-count").html(completeCount);
         $("#open-card-count").html(openCount);
         $("#closed-card-count").html(archivedCount);
         //continue writing to EXCEL object
-        excel_results.push( {"Stage": "Total Archived", "Count": archivedCount } )
-        excel_results.push( {"Stage": "Total Open", "Count": openCount } )
-        excel_results.push( {"Stage": "Total Completed", "Count": completeCount } )
+        excel_results.push( {[projKey]: "TOTAL Open Cards", "Count": openCount } )
+        excel_results.push( {[projKey]: "TOTAL Completed Cards", "Count": completeCount } )
+        excel_results.push( {[projKey]: "  ", "Count": "  " } )     
+        excel_results.push( {[projKey]: "Archived Cards", "Count": archivedCount } )
         
         if (reset){
             finalOutput = [];
@@ -133,12 +133,13 @@ $(document).ready(function(){
         $("#_my_token").val( localStorage.getItem("token") )
     }
 
-    var displayDate = function(){
+    var getDisplayDate = function(){
         var dateObj = new Date(Date.now());
         var timeString = dateObj.toLocaleTimeString()
         var dateString = dateObj.toLocaleDateString()
-        $("#get-date").html(dateString+" @ "+timeString);
+        return dateString+" @ "+timeString;
     }
+
     var getDateString = function(){
         var dateObj = new Date(Date.now());
         var dateString = dateObj.toLocaleDateString()
@@ -154,13 +155,28 @@ $(document).ready(function(){
     console.log(getTimeString());
     
     /* section for writing data to excel for export */
-    var X = XLSX;
+    // var X = XLSX;
     $("#printListToExcel").on('click', function(){
+        /* generate a new workbook with the first two rows */
+        var ws = XLSX.utils.aoa_to_sheet([
+            ["Results as of "+getDisplayDate()+""],
+            ["ACD Trello Card Count"]
+        ]);
 
-        /* make the worksheet */
-        var ws = XLSX.utils.json_to_sheet(excel_results);
-        
-        /* add to workbook */
+        /* this array controls the column order in the generated sheet */
+        // var header = ["x", "y", "z"];
+
+        /* add row objects to sheet starting from cell A4 */
+        XLSX.utils.sheet_add_json(ws, excel_results, {origin:"A4"});
+
+        /* edit the column widths */
+        var wscols = [
+            {wch:37},
+            {wch:5.7}
+        ];
+        ws['!cols'] = wscols;
+
+        /* create workbook and add sheet to workbook */
         var wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, "Trello_Counts_"+getDateString()+"");
 
