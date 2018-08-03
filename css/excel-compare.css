@@ -39,6 +39,12 @@ section {
 .compare-results{
     display: none
 }
+#compare-sheets table{
+    font-size: 12px;
+}
+#compare-sheets table td{
+    padding: 4px 5px;
+}
 #err-display{
     display: none
 }

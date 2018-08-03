@@ -3,6 +3,51 @@ $(document).ready(function(){
     /** returns numbers in first array, not found in second array 
      * https://stackoverflow.com/questions/18383636/compare-2-arrays-of-objects-with-underscore-to-find-the-differnce
      * **/
+    var testIfColumnsMatchUp = function(workbookSheets){
+        localStorage.setItem('test', JSON.stringify(workbookSheets) )
+        var columnsMatch = true;
+
+        //create array of headers
+        var headerArray = []
+        _.each(workbookSheets, function(item){
+            var adjustedArray = item[0].map( function(val){
+                return val.toUpperCase()
+            })
+            headerArray.push(adjustedArray)
+        });
+
+        headerArray.map( function(item, idx){
+
+            headerArray.map( function(subItem){
+                var found = _.difference( item, subItem).length
+                console.log(found)
+                if (found > 0){
+                    columnsMatch = false
+                }
+
+            })
+            console.log(item)
+            console.log(idx)
+        })
+        // _names.map( function( n ){
+        //     var arrayWithoutN = 
+        //     var diffArray = _.difference(workbookSheets[n][0], )
+        // })
+        // for each key
+        // loop through object and compare first row
+        if (columnsMatch === false){
+            alert("\n\nThe column names/order do not match, fix it first :)\n\n");
+            throw new Error("Columns dont match");
+            $("#loading-overlay").fadeOut();
+        } else {
+            // throw new Error("Columns do match");            
+        }
+    }
+    
+    // if (localStorage.getItem('test')){
+    //     testIfColumnsMatchUp( JSON.parse(localStorage.getItem('test')) )
+    // }
+
     var difference = function(array){
         var rest = Array.prototype.concat.apply(Array.prototype, Array.prototype.slice.call(arguments, 1));
      
@@ -24,6 +69,10 @@ $(document).ready(function(){
         // console.log(sheetNames);
         // console.log(sheetCount);
         var objectsToCompare = {...output};  //make copy of source
+        
+        // WE NEED TO MAKE SURE THE COLUMNS MATCH UP
+        testIfColumnsMatchUp(objectsToCompare)
+
         //first lets get the general summary and also filter out unusable sheets
         _.each(output, function(elem, idx){
             var rowCount = elem.length;
@@ -41,9 +90,23 @@ $(document).ready(function(){
 
             _.each(objectsToCompare, function(subElem, subIdx){
                 if (idx !== subIdx){
-                    $("#compare-sheets").append("<h6>Rows in sheet <b>"+idx+"</b>, not found in sheet...<b>"+subIdx+"</b> </h6>")
-                    // console.log(difference(elem, subElem))
-                    $("#compare-sheets").append( JSON.stringify(difference(elem, subElem)) )
+                    $("#compare-sheets").append("<div class='card-panel blue-grey lighten-5'><h6>Rows in sheet <b>"+idx+"</b>, not found in sheet <b>"+subIdx+"</b> </h6></div>")
+                    var tableHtml ='<table>'
+                    var notFoundArray = difference(elem, subElem)
+                    // console.log(notFoundArray);
+                    _.each(notFoundArray, function(arr){
+                        // console.log(arr);
+                        var rowHtml = '<tr>'
+                        _.each(arr, function(cell){
+                            console.log(cell)
+                            rowHtml += '<td>'+ cell +'</td>' 
+                        })
+                        rowHtml += '</tr>'
+                        console.log(rowHtml)
+                        tableHtml += rowHtml
+                    })
+                    tableHtml += '</table>'
+                    $("#compare-sheets").append( tableHtml )
                 }
 
             })
