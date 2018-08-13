@@ -242,7 +242,7 @@
                       '</button>' + $($tableRow).children("td:nth-child(1)").text() + '</td>' +
                       '<td class="b">' + $($tableRow).children("td:nth-child(2)").text() + '</td>' +
                       '<td class="c" id="location">' + $($tableRow).children("td:nth-child(3)").text() + '</td>' +
-                      '<td class="a">' + $($tableRow).children("td:nth-child(4)").text() + '</td>' +
+                      '<td class="a" id="priority">' + $($tableRow).children("td:nth-child(4)").text() + '</td>' +
                       '<td class="a">' + $($tableRow).children("td:nth-child(5)").text() + '</td>' +
                       '<td class="a">' + $($tableRow).children("td:nth-child(6)").text() + '</td>' +
                       '<td class="a">' + $($tableRow).children("td:nth-child(7)").text() + '</td>' +
@@ -1168,7 +1168,7 @@
                     // '<td class="b">' + nullCheck(filteredData[i].subtype) + '</td>' +
                     '<td class="b" id='+_utilityMod.nullCheck(filteredData[i].foldernumber)+'>' + _utilityMod.nullCheck(filteredData[i].foldernumber) + '</td>' +
                     '<td class="c" id="location">' + _utilityMod.nullCheck(filteredData[i].foldername) + '</td>' +
-                    '<td class="a">' + _utilityMod.nullCheck(filteredData[i].priority1) + '</td>' +
+                    '<td class="a" id="priority">' + _utilityMod.nullCheck(filteredData[i].priority1) + '</td>' +
                     '<td class="a">' + _utilityMod.nullCheck(filteredData[i].priority2) + '</td>' +
                     '<td class="a">' + _utilityMod.dateFormatting(filteredData[i].duetostart) + '</td>' +
                     '<td class="a">' + _utilityMod.dateFormatting(filteredData[i].duetoend) + '</td>' +
@@ -1204,6 +1204,29 @@
                     '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>' +
                 '</a>');
                 _tableMod.validateAddButton();
+                _tableMod.addColorToPriority();
+            },
+            addColorToPriority: function(){
+                let code_red = "rgba(255,0,0,0.75)"
+                let code_org = "rgba(255,165,0,0.75)"
+                let code_yel = "rgba(255,255,0,0.75)"
+                let code_grn = "rgba(0,128,0,0.75)"
+                let code_blu = "rgba(0,191,255,0.75)"
+                function getCodeColor(v){
+                    return v == 5 ? code_blu :
+                        v == 4 ? code_grn :
+                        v == 3 ? code_yel :
+                        v == 2 ? code_org :
+                        v == 1 ? code_red : "";
+                }
+                // filter the items we need updating
+                $('td#priority').each( function(index, elem){
+                    if ( $(this).text().length > 0){
+                        console.log("passed the test")
+                        let _code = $(this).text().trim()
+                        $(this).css("background", getCodeColor(_code) )
+                    }
+                })
             },
             validateAddButton: function(){
                 $("a.mobileAdd").unbind('click').bind('click', function(elem) {
@@ -1221,7 +1244,7 @@
                       '</button>' + $($tableRow).children("td:nth-child(1)").text() + '</td>' +
                       '<td class="b">' + $($tableRow).children("td:nth-child(2)").text() + '</td>' +
                       '<td class="c" id="location" >' + $($tableRow).children("td:nth-child(3)").text() + '</td>' +
-                      '<td class="a">' + $($tableRow).children("td:nth-child(4)").text() + '</td>' +
+                      '<td class="a" id="priority">' + $($tableRow).children("td:nth-child(4)").text() + '</td>' +
                       '<td class="a">' + $($tableRow).children("td:nth-child(5)").text() + '</td>' +
                       '<td class="a">' + $($tableRow).children("td:nth-child(6)").text() + '</td>' +
                       '<td class="a">' + $($tableRow).children("td:nth-child(7)").text() + '</td>' +
