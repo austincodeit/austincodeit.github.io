@@ -14,7 +14,7 @@ $(document).ready(function() {
     // console.log(data);
     //get inspector names by unique values
     let nameArray = _.chain(data).pluck('assigneduser').uniq().value();
-    let removeArray = ['Todd Wilcox', 'Viola Ruiz', 'Marcus Elliott', 'Tammy Lewis', 'Kendrick Barnett', ]; //names we don't want to map
+    let removeArray = ['Todd Wilcox', 'Viola Ruiz', 'Marcus Elliott', 'Tammy Lewis', 'Kendrick Barnett', 'Elaine Garrette']; //names we don't want to map
     let filterArray = nameArray.filter(function(name){
         if (removeArray.indexOf(name) < 0){
             return name;
