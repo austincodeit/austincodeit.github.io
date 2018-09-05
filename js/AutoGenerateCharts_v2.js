@@ -10,10 +10,11 @@ function myFunction(zone) {
     document.getElementById("zone-link").href="./imgs/zones/Map_"+ zone +".png";
     //TEXT OF ZONE
     $.ajax({
-        url: "data/textfiles/" + zone + "INTRO.txt",
+        url: "data/IMN-textfiles/" + zone + "INTRO.txt",
         dataType: "text",
         success: function(data) {
             $("#about-zone-text").html(data);
+            console.log(data)
             // console.log('data retrieved');
         }
     });

@@ -1222,7 +1222,7 @@
                 // filter the items we need updating
                 $('td#priority').each( function(index, elem){
                     if ( $(this).text().length > 0){
-                        console.log("passed the test")
+                        // console.log("passed the test")
                         let _code = $(this).text().trim()
                         $(this).css("background", getCodeColor(_code) )
                     }
