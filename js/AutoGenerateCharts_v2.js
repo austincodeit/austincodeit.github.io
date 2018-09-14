@@ -14,7 +14,7 @@ function myFunction(zone) {
         dataType: "text",
         success: function(data) {
             $("#about-zone-text").html(data);
-            console.log(data)
+            // console.log(data)
             // console.log('data retrieved');
         }
     });
