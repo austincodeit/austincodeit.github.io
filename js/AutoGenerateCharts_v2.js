@@ -60,11 +60,11 @@ function DrawCharts(zone) {
             complaintData.push(json1[i][zone + "Comp"]);
             demographicData.push(parseInt(json1[i][zone + "Demo"]));
         }
-        const numberWithCommas = (x) => {
+        const numberWithCommas = function(x) {
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
-        const getPercentValue = (arr, idx) => {
-            var arrSum = arr.reduce( (total, current) => {
+        const getPercentValue = function(arr, idx){
+            var arrSum = arr.reduce( function(total, current) {
                 if (current){
                     return Number(total) + Number(current);
                 }
