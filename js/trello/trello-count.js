@@ -1,7 +1,10 @@
-
+//everything is wrapped in this function which executes after the document is ready!
 $(document).ready(function(){
+    // excel_results is an object which will populate with all the data to be exported to Excel
     var excel_results = [];
+    // print_results is a function which does the heavy lifting in this application
     var print_results = function(cardData, lists, reset){
+        //updateLocalStorage.... I created this function to save the "secret token" in the localStorage cache
         updateLocalStorage();
         //display the date
         $("#get-date").html (getDisplayDate() );
@@ -83,7 +86,7 @@ $(document).ready(function(){
     $("#loading-display").fadeOut();
     $("#reset-section").hide();
     
-    
+    // this function is fired when the user clicks the "COUNT" button at the very beginning
     $("#startCountingBoards").on('click', function(){
         $("#loading-display").fadeIn();
         $("#start-section").hide();
@@ -133,6 +136,7 @@ $(document).ready(function(){
         $("#_my_token").val( localStorage.getItem("token") )
     }
 
+    //these Date and Time functions below are for utility purposes
     var getDisplayDate = function(){
         var dateObj = new Date(Date.now());
         var timeString = dateObj.toLocaleTimeString()
@@ -152,7 +156,7 @@ $(document).ready(function(){
         // console.log(timeString )
         return timeString
     }
-    console.log(getTimeString());
+    console.log("The time is: ", getTimeString());
     
     /* section for writing data to excel for export */
     // var X = XLSX;
