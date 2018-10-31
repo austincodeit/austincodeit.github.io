@@ -1,7 +1,8 @@
 imgs/thumbs.db
 backup/
 data/textfiles
-
+district-neighborhood-analysis/
+districtanalysis/
 NET/
 
 js/load-task-list.js
@@ -12,6 +13,5 @@ js/route-app.js
 js/route-to-mobile.js
 
 duplicates.html
-sxsw.html
 NET_dashboard.html
 route_dev.html
