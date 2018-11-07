@@ -61,11 +61,13 @@ $(document).ready(function(){
         $("#complete-card-count").html(completeCount);
         $("#open-card-count").html(openCount);
         $("#closed-card-count").html(archivedCount);
+        $("#total-card-count").html(openCount+completeCount+archivedCount);
         //continue writing to EXCEL object
         excel_results.push( {[projKey]: "TOTAL Open Cards", "Count": openCount } )
         excel_results.push( {[projKey]: "TOTAL Completed Cards", "Count": completeCount } )
-        excel_results.push( {[projKey]: "  ", "Count": "  " } )     
+        //excel_results.push( {[projKey]: "  ", "Count": "  " } )     
         excel_results.push( {[projKey]: "Archived Cards", "Count": archivedCount } )
+        excel_results.push( {[projKey]: "TOTAL Cards", "Count": openCount+completeCount+archivedCount } )
         
         if (reset){
             finalOutput = [];
@@ -139,9 +141,9 @@ $(document).ready(function(){
     //these Date and Time functions below are for utility purposes
     var getDisplayDate = function(){
         var dateObj = new Date(Date.now());
-        var timeString = dateObj.toLocaleTimeString()
+        //var timeString = dateObj.toLocaleTimeString()
         var dateString = dateObj.toLocaleDateString()
-        return dateString+" @ "+timeString;
+        return dateString //+" @ "+timeString;
     }
 
     var getDateString = function(){
@@ -163,8 +165,7 @@ $(document).ready(function(){
     $("#printListToExcel").on('click', function(){
         /* generate a new workbook with the first two rows */
         var ws = XLSX.utils.aoa_to_sheet([
-            ["Results as of "+getDisplayDate()+""],
-            ["ACD Trello Card Count"]
+            ["ACD Trello Card Count Results as of "+getDisplayDate()+""]
         ]);
 
         /* this array controls the column order in the generated sheet */
