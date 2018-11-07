@@ -6,7 +6,7 @@
 $(document).ready(function() {
   'use strict';
 
-	const DATE_STRING = "February 2018";
+	const DATE_STRING = "November 2018";
     let welcomeText = ""+
 "    _             _   _           ____          _\n"+
 "   / \\  _   _ ___| |_(_)_ __     / ___|___   __| | ___\n"+
