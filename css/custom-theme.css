@@ -164,20 +164,6 @@ div.well {
     color: black;
 }
 
-#map-viz .wrapper {
-    display: -ms-grid;
-    display: grid; 
-    -ms-grid-columns: 100px 100px 100px;
-    grid-template-columns: 100px 100px 100px;
-    background-color: #fff;
-    color: #444;
-  }
-  #map-viz .wrapper div {
-    background-color: #444;
-    color: #fff;
-    border-radius: 5px;
-    padding: 20px;
-  }
 /* previous CSS */
 .box {
     bottom: 0;
