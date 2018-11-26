@@ -590,7 +590,7 @@
                             map: _mapMod.myMap,
                             draggable: false //set to false to make items not dragganble
                         });
-                        let popUpWindow = "<div><p>Folder: " + list[arrayPos].foldernumber + "</p><p>" + 
+                        let popUpWindow = "<div id='mypop'><p>Folder: " + list[arrayPos].foldernumber + "</p><p>" + 
                                     "Address: " + list[arrayPos].foldername + 
                                     "</p><button style='width:100%' id=" + list[arrayPos].foldernumber + 
                                     " class='popup btn btn-primary btn-sm'>Add</button></div>";
@@ -599,23 +599,30 @@
                         });
                         newTaskMarker.addListener('click', function() {
                             infowindow.open(_mapMod.myMap, newTaskMarker);
-        
-                            $("button.popup").unbind('click').bind('click', function(e){
-                                let id = e.target.id;//folder number of address
-                                if (id.length < 1){
-                                    return;
-                                }
-                                let $tableRow = $("#availableAddressRows tr").children("td#"+id+"").parent()[0];
-                                let newAddress = $($tableRow).children("td#location").text().trim() + ", Austin, TX";
-                                let popUpText = $($tableRow).children("td#location").text().trim();
-                                _mapMod.appendRowToRouteTable($tableRow);
-                                 //theses functions help with updates
-                                _tableMod.validateRemoveButton();
-                                _tableMod.adjustRowCount();
-                                _mapMod.placeLatLngOnMap(_utilityMod.extractLATLNG('('+latitude+','+longitude+')'), popUpText, false);
-                                infowindow.close();
-                            });
-        
+    
+                            //update 11-26-2018 the web got faster i guess, because i had to add a timeout for binding this click function
+                            setTimeout(function(){
+
+                                $("button.popup").unbind('click').bind('click', function(e){
+                                    let id = e.target.id;//folder number of address
+                                    //testing
+                                    console.log(e.target.id)
+                                    //
+                                    if (id.length < 1){
+                                        return;
+                                    }
+                                    let $tableRow = $("#availableAddressRows tr").children("td#"+id+"").parent()[0];
+                                    let newAddress = $($tableRow).children("td#location").text().trim() + ", Austin, TX";
+                                    let popUpText = $($tableRow).children("td#location").text().trim();
+                                    _mapMod.appendRowToRouteTable($tableRow);
+                                    //theses functions help with updates
+                                    _tableMod.validateRemoveButton();
+                                    _tableMod.adjustRowCount();
+                                    _mapMod.placeLatLngOnMap(_utilityMod.extractLATLNG('('+latitude+','+longitude+')'), popUpText, false);
+                                    infowindow.close();
+                                });
+            
+                            }, 250)
                         });
                         _mapMod.taskListMarkerArray.push(newTaskMarker);
                         arrayPos++;
@@ -647,22 +654,27 @@
                                 });
                                 newTaskMarker.addListener('click', function() {
                                     infowindow.open(map, newTaskMarker);
-        
-                                    $("button.popup").unbind('click').bind('click', function(e){
-                                        let id = e.target.id;//folder number of address
-                                        if (id.length < 1){
-                                            return;
-                                        }
-                                        let $tableRow = $("#availableAddressRows tr").children("td#"+id+"").parent()[0];
-                                        let newAddress = $($tableRow).children("td#location").text().trim() + ", Austin, TX";
-                                        let popUpText = $($tableRow).children("td#location").text().trim();
-                                        _mapMod.appendRowToRouteTable($tableRow);
-                                       //theses functions help with updates
-                                        _tableMod.validateRemoveButton();
-                                        _tableMod.adjustRowCount();
-                                        _mapMod.placeAddressOnMap(newAddress, popUpText, false);
-                                        infowindow.close();
-                                    });
+                                    
+                                    //update 11-26-2018 the web got faster i guess, because i had to add a timeout for binding this click function
+                                    setTimeout(function(){
+                                        
+                                        $("button.popup").unbind('click').bind('click', function(e){
+                                            let id = e.target.id;//folder number of address
+                                            if (id.length < 1){
+                                                return;
+                                            }
+                                            let $tableRow = $("#availableAddressRows tr").children("td#"+id+"").parent()[0];
+                                            let newAddress = $($tableRow).children("td#location").text().trim() + ", Austin, TX";
+                                            let popUpText = $($tableRow).children("td#location").text().trim();
+                                            _mapMod.appendRowToRouteTable($tableRow);
+                                        //theses functions help with updates
+                                            _tableMod.validateRemoveButton();
+                                            _tableMod.adjustRowCount();
+                                            _mapMod.placeAddressOnMap(newAddress, popUpText, false);
+                                            infowindow.close();
+                                        });
+                                        
+                                    }, 250)
         
                                 });
         
