@@ -35,11 +35,11 @@ $(document).ready(function(){
         // console.log(sheetNames);
         var projKey = "Active Stages: "+activeStageCount;
         //first lets get the general summary and also filter out unusable sheets
-        var completeCount = 0, openCount = 0, archivedCount = 0;
+        var completeCount = 0, openCount = 0; //archivedCount = 0;
         // console.log(finalOutput)
         _.each(finalOutput, function(elem, idx){
             // console.log(elem)
-            archivedCount = archivedCount + Number(elem["closed"]);
+            // archivedCount = archivedCount + Number(elem["closed"]);
             var elemName = elem.name;
             if (elemName !== "Complete"){
                 openCount = openCount + Number(elem["open"]);
@@ -60,14 +60,14 @@ $(document).ready(function(){
         //continue writing to DOM   
         $("#complete-card-count").html(completeCount);
         $("#open-card-count").html(openCount);
-        $("#closed-card-count").html(archivedCount);
-        $("#total-card-count").html(openCount+completeCount+archivedCount);
+        //$("#closed-card-count").html(archivedCount);
+        $("#total-card-count").html(openCount+completeCount); //+archivedCount);
         //continue writing to EXCEL object
         excel_results.push( {[projKey]: "TOTAL Open Cards", "Count": openCount } )
         excel_results.push( {[projKey]: "TOTAL Completed Cards", "Count": completeCount } )
         //excel_results.push( {[projKey]: "  ", "Count": "  " } )     
-        excel_results.push( {[projKey]: "Archived Cards", "Count": archivedCount } )
-        excel_results.push( {[projKey]: "TOTAL Cards", "Count": openCount+completeCount+archivedCount } )
+        //excel_results.push( {[projKey]: "Archived Cards", "Count": archivedCount } )
+        excel_results.push( {[projKey]: "TOTAL Cards", "Count": openCount+completeCount }) // + archivedCount } )
         
         if (reset){
             finalOutput = [];

@@ -59,7 +59,7 @@
     <body>
         <div class="container">
             <section class="row">
-<h1>Iqbal test</h1>
+
                 <h3 class="project-name">ACD Trello Card Count</h3>
                 <h6>This tool will count the total number of cards in ACD's Trello Board.</h6>
                 <h6><a href="https://trello.com/b/ijWiW7ag/acd-kanban-board" target="_blank">Go to Trello Board</a></h6>
@@ -85,14 +85,13 @@
                     
                     <div id="summary-list">
                         <ul class="collection with-header">
+                            <li class="collection-item">Archived: <span id="closed-card-count" class="summary-counts"></span>
+                            </li>
                             <li class="collection-item">Open: <span id="open-card-count" class="summary-counts"></span>
                             </li>
                             <li class="collection-item">Complete: <span id="complete-card-count" class="summary-counts"></span>
                             </li>
-                            <li class="collection-item">Archived: <span id="closed-card-count" class="summary-counts"></span>
-                            </li>  
-                            <li class="collection-item">Total: <span id="total-card-count" class="summary-counts"></span>
-                            </li>                      </ul>
+                        </ul>
                     </h5>
 
                 </div>
@@ -140,7 +139,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
     <script type="text/javascript" src="./js/compare/shim.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.12.11/xlsx.full.min.js" integrity="sha256-fh5IqjFDc5ivkj5CIFwYqpT046t32Nybb+YwX1gBIVk=" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="./js/trello/trello-count-iqbal.js"></script>
+    <script type="text/javascript" src="./js/trello/trello-count.js"></script>
    
 
 </html>

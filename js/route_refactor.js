@@ -77,6 +77,7 @@
                    
             },
             keyPress: function(){
+                /* this section is for tracking user key strokes depending on the cursor location */
                 $(document).keypress(function(e) {
                     //if user presses enter while focused on input field
                     if (e.which == 13 && $("#inspectorID:focus").val()) {
@@ -125,7 +126,7 @@
         let _openDataLoader = {
             appToken: "AmHlGm0OHBl6r4hg0PLvAtJk7",
             appRecordLimit: 8500,
-            doNotInclude: ['Todd Wilcox', 'Viola Ruiz', 'Marcus Elliott', 'Tammy Lewis', 'Kendrick Barnett', 'Elaine Garrette' ],
+            doNotInclude: ['Todd Wilcox', 'Viola Ruiz', 'Marcus Elliott', 'Tammy Lewis','Elaine Garrette' ],
             openDataLink: 'https://data.austintexas.gov/resource/czdh-pagu.json',
             openData: [],
             getOpenData: function( ) {

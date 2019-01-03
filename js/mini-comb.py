@@ -18,7 +18,10 @@ for filename in filesToMinify:
 #minifiedJs = ['route-app.min.js','custom-script.min.js','load-task-list.min.js','print-pdf.min.js','route-to-mobile.min.js']
 minifiedJs = ['route_refactor.min.js', 'custom-script.min.js']
 
-#with open('acd_bundle.min.js','wb') as wfd:
+# FOR TESTING the minified bundle: 
+# uncomment the next line and comment out _v2 
+# with open('acd_bundle.min.js','wb') as wfd:
+
 with open('acd_bundle_v2.min.js','wb') as wfd:
     for files in minifiedJs:
         with open(files,'rb') as fd:
