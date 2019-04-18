@@ -95,7 +95,8 @@ $(document).ready(function(){
 
         let keyInput = $("#_my_key").val();
         let tokenInput = $("#_my_token").val();
-        keyInput = "27992b2f9daad361db38d07e1b581c51";
+        // keyInput = "27992b2f9daad361db38d07e1b581c51"; // Nathan's secret token 
+		keyInput = "3b57e88bec689f7d6d3e161bc6702642"; // Iqbal's secret token 
         let myUrl = "https://api.trello.com/1/boards/ijWiW7ag?cards=all&key="+keyInput+"&token="+tokenInput;
         let listUrl = "https://api.trello.com/1/boards/ijWiW7ag?lists=all&key="+keyInput+"&token="+tokenInput;
         
