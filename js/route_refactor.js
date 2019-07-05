@@ -453,6 +453,9 @@
                 _mapMod.iconCount = 0;
                 $(".header-row th").removeClass("headerSortUp");
                 $(".header-row th").removeClass("headerSortDown");
+
+                //remove img if generated
+                $("#canvasImg").hide();
                 _mapMod.initialize();
             },
             iconCount: 0,
@@ -1032,6 +1035,8 @@
                 }
                 addHeader(); //add header w footer inside function
                 addGoogleMapImage(); //we will add the map first, then add the task contents to complete the function
+                $("#canvasImg").hide();
+
               } //end of createPDF function
 
         }
@@ -1348,8 +1353,23 @@
                 let _selectedYek = _ye0ks[Math.floor(Math.random() * 5)] //randomly select key
                 let postUrl = "https://www.googleapis.com/urlshortener/v1/url?&key=" + _selectedYek;
                 let _longUrl = google_url_start+urlWayPoint+"&views=traffic";
-          
+                console.log(_longUrl)
+                
+                $("#google_url_input").val(_longUrl);
+                $("#google_url_link").html("<a href="+_longUrl+" target='_blank'>Open in Google Maps (Full Link)</a>");
+        
+                $("#urlDialog").show();
+                $("#urlDialog").dialog({
+                    width: 500,
+                    close: function( event, ui ) {
+                        $("#urlDialog").hide();
+                        $("#google_url_link").html("");
+                    }
+                });
+
                 ///make request to google shorterner API service
+                /* GOOGLE URL HAS BEEN DEPRECATED* */
+                /*
                 $.ajax({
                   url: postUrl,
                   type: "POST",
@@ -1369,8 +1389,7 @@
                             $("#google_url_link").html("");
                         }
                     });
-                  
-                }); //end of ajax request
+                }); //end of ajax request */
             }
         }
         
