@@ -47,7 +47,7 @@ function DrawCharts(zone) {
         populationData = [],
         populationDistData = [];
 
-    var json1 = d3.csv("data/mdc_v4.csv", function(d) {
+    var json1 = d3.csv("data/mdc_v3.csv", function(d) {
         json1 = d;
         
         for (var i = 0; i < json1.length; i++) {
