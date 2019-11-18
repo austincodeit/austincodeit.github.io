@@ -8,7 +8,7 @@ $(document).ready(function(){
         updateLocalStorage();
         //display the date
         $("#get-date").html (getDisplayDate() );
-        
+        console.log(cardData)
         let finalOutput = [];
         // console.log(output);
         var cardList = cardData["cards"];
@@ -18,12 +18,18 @@ $(document).ready(function(){
         //loop through the list grouped by ID
         _.each(newList, function(card, idx){
             //group by each list by status (closed or NOT)
+            // console.log(card)
             let openTickets = _.countBy(card, 'closed');
-            let closedCount = openTickets.true ? openTickets.true : 0
+            // console.log(openTickets)
+            let closedCount = openTickets.true ? openTickets.true : 0;
+            let openCount_1 = openTickets.false ? openTickets.false : 0;
             lists.forEach(function(elem){
+
                 // console.log(elem);
+                // if the open count = 0, then hide column
+
                 if (idx === elem.id){
-                   finalOutput.push({name: elem.name, count: newList[idx].length, open: openTickets.false, closed: closedCount })
+                   finalOutput.push({name: elem.name, count: newList[idx].length, open: openCount_1, closed: closedCount })
                 }
             });
         })
@@ -36,12 +42,15 @@ $(document).ready(function(){
         var projKey = "Active Stages: "+activeStageCount;
         //first lets get the general summary and also filter out unusable sheets
         var completeCount = 0, openCount = 0; //archivedCount = 0;
-        // console.log(finalOutput)
+        console.log(finalOutput)
+
         _.each(finalOutput, function(elem, idx){
-            // console.log(elem)
             // archivedCount = archivedCount + Number(elem["closed"]);
             var elemName = elem.name;
             if (elemName !== "Complete"){
+                // if Shawn says we can hide empty columns, uncomment below line & comment OUT above
+            // if (elemName !== "Complete" || Number(elem["open"]) != 0){
+                    // console.log(elem["open"])
                 openCount = openCount + Number(elem["open"]);
                 //write to DOM
                 $("#card-list").append('<li class="collection-item"><div>'+(idx+1)+". "+elemName+
@@ -104,6 +113,8 @@ $(document).ready(function(){
             url: listUrl,
             type: "GET"
         }).done(function(listData) {
+            // console.log(listData)
+
             let lists = listData["lists"];
 
             $.ajax({

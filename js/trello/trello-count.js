@@ -39,6 +39,7 @@ $(document).ready(function(){
         // console.log(finalOutput)
         _.each(finalOutput, function(elem, idx){
             // console.log(elem)
+            console.log(finalOutput)
             archivedCount = archivedCount + Number(elem["closed"]);
             var elemName = elem.name;
             if (elemName !== "Complete"){
@@ -108,7 +109,7 @@ $(document).ready(function(){
                 url: myUrl,
                 type: "GET"
             }).done(function(cardData) {
-
+                console.log(cardData)
                 print_results(cardData, lists);
                 $(".compare-results").show()
                 $("#loading-display").hide();
